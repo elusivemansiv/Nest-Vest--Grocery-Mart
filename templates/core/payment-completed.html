@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{{ site_settings_data.title }} - Invoice</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="{{ site_settings_data.description|default:'' }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="{{ site_settings_data.title }} - Invoice" />
+    <meta property="og:type" content="website" />
+    <!-- Favicon -->
+    {% if site_settings_data and site_settings_data.favicon %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ site_settings_data.favicon.url }}" />
+    {% else %}
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/imgs/theme/favicon.svg' %}" />
+    {% endif %}
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+</head>
+
+<body>
+    <div class="invoice invoice-content invoice-5">
+        <div class="back-top-home justify-content-center align-items-center text-center hover-up mt-30 ml-30 pb-4">
+            <h3><a class="hover-up" href="{% url 'core:dashboard' %}"><i class="fi-rs-settings-sliders mr-5"></i> Dashboard</a></h3>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="invoice-inner">
+                        <div class="invoice-info" id="invoice_wrapper">
+                            <div class="invoice-header">
+                                <div class="row align-items-center">
+                                    <div class="col-md-6">
+                                        <div class="logo d-flex align-items-center">
+                                            <a href="{% url 'core:index' %}" class="mr-20">
+                                                {% if site_settings_data and site_settings_data.logo %}
+                                                    <img src="{{ site_settings_data.logo.url }}" alt="{{ site_settings_data.title }}" style="max-height: 65px; max-width: 200px; width: auto; object-fit: contain;" />
+                                                {% elif site_settings_data and site_settings_data.footer_logo %}
+                                                    <img src="{{ site_settings_data.footer_logo.url }}" alt="{{ site_settings_data.title }}" style="max-height: 65px; max-width: 200px; width: auto; object-fit: contain;" />
+                                                {% elif site_settings_data and site_settings_data.favicon %}
+                                                    <img src="{{ site_settings_data.favicon.url }}" alt="{{ site_settings_data.title }}" style="max-height: 55px; width: auto;" />
+                                                {% else %}
+                                                    <img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" style="max-height: 55px; width: auto;" />
+                                                {% endif %}
+                                            </a>
+                                            <div class="text">
+                                                <strong class="text-brand" style="font-size: 18px; font-weight: 700;">{{ site_settings_data.title }}</strong> <br />
+                                                {% if contact_info_data and contact_info_data.address %}
+                                                    <span>{{ contact_info_data.address }}</span>
+                                                    {% if contact_info_data.phone %}<br><span class="text-muted font-sm">Phone: {{ contact_info_data.phone }}</span>{% endif %}
+                                                    {% if contact_info_data.email %}<br><span class="text-muted font-sm">Email: {{ contact_info_data.email }}</span>{% endif %}
+                                                {% else %}
+                                                    <span>205 North, Suite 810, Chicago, USA</span>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                        <h2 style="color: #253D4E; margin-bottom: 5px;">INVOICE</h2>
+                                        {% if order %}
+                                            <p class="text-muted font-sm mb-0">
+                                                <strong>Invoice No:</strong> #INVOICE-{{ order.id }}<br>
+                                                <strong>Date:</strong> {{ order.order_date|date:"M d, Y" }}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invoice-banner">
+                                <img src="{% static 'assets/imgs/invoice/banner.png' %}" alt="">
+                            </div>
+                            <div class="invoice-center">
+                                <div class="table-responsive">
+                                    <table class="table table-striped invoice-table">
+                                        <thead class="bg-active">
+                                            <tr>
+                                                <th>Title</th>
+                                                <th class="text-center">Price</th>
+                                                <th class="text-center">Quantity</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for product_id, item in cart_data.items %}
+                                            <tr>
+                                                <td>
+                                                    <div class="item-desc-1">
+                                                        <span>{{ item.title }}</span>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">${{ item.price|floatformat:2 }}</td>
+                                                <td class="text-center">{{ item.qty }}</td>
+                                                <td class="text-right">${{ item.sub_total|floatformat:2 }}</td>
+                                            </tr>
+                                            {% endfor %}
+
+                                            <tr>
+                                                <td colspan="3" class="text-end f-w-600">SubTotal</td>
+                                                <td class="text-right">${{ cart_total_amount|floatformat:2 }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end f-w-600">Grand Total</td>
+                                                <td class="text-right f-w-600" style="color: #82D000; font-size: 16px; font-weight: 700;">${{ cart_total_amount|floatformat:2 }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="invoice-bottom pb-80">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="mb-15">Invoice To</h6>
+                                        <p class="font-sm">
+                                            <strong>Name:</strong> {{ request.user.username|title }}<br />
+                                            {% if request.user.email %}<strong>Email:</strong> {{ request.user.email }}<br />{% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                        <h6 class="mb-15">Total Amount</h6>
+                                        <h3 class="mt-0 mb-0 text-brand" style="color: #82D000;">${{ cart_total_amount|floatformat:2 }}</h3>
+                                        <p class="mb-0 text-muted font-sm">Taxes Included</p>
+                                    </div>
+                                </div>
+                                <div class="row text-center">
+                                    <div class="hr mt-30 mb-30"></div>
+                                    <p class="mb-0 text-muted"><strong>Hey {{ request.user.username|title }}, </strong>Thank you for shopping at {{ site_settings_data.title }}!</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice-btn-section clearfix d-print-none text-center mt-30">
+                            <a href="javascript:window.print()" class="btn btn-lg btn-custom btn-print hover-up mr-15" style="background-color: #82D000; color: #fff; border: none; padding: 12px 25px; border-radius: 6px;"> 
+                                <img src="{% static 'assets/imgs/theme/icons/icon-print.svg' %}" alt="" style="filter: brightness(0) invert(1);" /> Print 
+                            </a>
+                            <a href="{% url 'core:dashboard' %}" class="btn btn-lg btn-custom hover-up" style="background-color: #253D4E; color: #fff; border: none; padding: 12px 25px; border-radius: 6px;"> 
+                                <i class="fi-rs-user mr-5"></i> View in Dashboard 
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Vendor JS-->
+    <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <!-- Invoice JS -->
+    <script src="{% static 'assets/js/invoice/jspdf.min.js' %}"></script>
+    <script src="{% static 'assets/js/invoice/invoice.js' %}"></script>
+</body>
+
+</html>

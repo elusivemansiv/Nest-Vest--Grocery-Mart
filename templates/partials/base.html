@@ -1,0 +1,1835 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>{% if site_settings_data and site_settings_data.title %}{{ site_settings_data.title }}{% else %}NestVest- Grocery & Mart{% endif %}</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:title" content="" />
+    <meta property="og:type" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:image" content="" />
+    <!-- Favicon -->
+    {% if site_settings_data and site_settings_data.favicon %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ site_settings_data.favicon.url }}" />
+    {% else %}
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/imgs/theme/favicon.svg' %}" />
+    {% endif %}
+    <!-- Template CSS -->
+    <link rel="stylesheet" href="assets/css/plugins/slider-range.css" />
+    <link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+
+    <!-- Mobile Responsive Overrides -->
+    <style>
+        /* ===== MOBILE FIXES (max-width: 767px) ===== */
+        @media (max-width: 767px) {
+
+            /* --- Prevent horizontal scrolling --- */
+            body, html {
+                overflow-x: hidden !important;
+            }
+            .container, .container-fluid {
+                overflow-x: hidden !important;
+            }
+
+            /* --- Mobile Header Logo & Icons --- */
+            body .header-area,
+            body .header-style-1 {
+                height: auto !important;
+                min-height: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            body .header-bottom {
+                padding: 14px 0 !important;
+                height: auto !important;
+                min-height: 64px !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                overflow: visible !important;
+            }
+            body .header-bottom .container {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                width: 100% !important;
+            }
+            body .header-wrap {
+                overflow: visible !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                position: relative !important;
+                width: 100% !important;
+                min-height: 44px !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            body .header-action-icon-2.d-block.d-lg-none {
+                display: flex !important;
+                align-items: center !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                z-index: 11 !important;
+            }
+            body .burger-icon {
+                margin: 0 !important;
+            }
+            body .logo.d-block.d-lg-none,
+            body .header-bottom .logo.logo-width-1 {
+                position: absolute !important;
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(-50%, -50%) scale(2.3) !important;
+                -webkit-transform: translate(-50%, -50%) scale(2.3) !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                text-align: center !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                z-index: 10 !important;
+                max-width: 140px !important;
+                width: auto !important;
+                overflow: visible !important;
+            }
+            body .logo.d-block.d-lg-none a,
+            body .header-bottom .logo.logo-width-1 a {
+                display: flex !important;
+                justify-content: center !important;
+                align-items: center !important;
+                overflow: visible !important;
+                line-height: 1 !important;
+            }
+            body .logo.d-block.d-lg-none img,
+            body .header-bottom .logo.logo-width-1 a img {
+                width: 100% !important;
+                max-width: 100px !important;
+                height: auto !important;
+                max-height: 40px !important;
+                object-fit: contain !important;
+                display: block !important;
+                margin: 0 auto !important;
+            }
+            body .header-action-right {
+                display: flex !important;
+                align-items: center !important;
+                padding-right: 6px !important;
+                margin: 0 !important;
+                z-index: 11 !important;
+            }
+            body .header-action-right .header-action-2 {
+                display: flex !important;
+                align-items: center !important;
+                gap: 12px !important;
+                justify-content: flex-end !important;
+                margin: 0 !important;
+            }
+            body .header-action-right .header-action-2 .header-action-icon-2 {
+                display: flex !important;
+                align-items: center !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                transform: scale(0.8) !important;
+                transform-origin: center right !important;
+            }
+            .mobile-header-logo img {
+                max-height: 45px !important;
+            }
+
+            /* --- Section Title & Tabs: center on mobile --- */
+            .section-title {
+                text-align: center !important;
+            }
+            .section-title h3 {
+                font-size: 20px !important;
+                margin-bottom: 10px !important;
+            }
+            .nav.nav-tabs.links {
+                justify-content: flex-start !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                white-space: nowrap !important;
+                padding-bottom: 8px !important;
+                scrollbar-width: none !important;
+            }
+            .nav.nav-tabs.links::-webkit-scrollbar {
+                display: none !important;
+            }
+            .nav.nav-tabs.links .nav-item {
+                flex-shrink: 0 !important;
+            }
+            .nav.nav-tabs.links .nav-link {
+                font-size: 13px !important;
+                padding: 5px 10px !important;
+            }
+
+            /* --- Product Images: fully responsive --- */
+            .product-cart-wrap .product-img-action-wrap .product-img a img {
+                width: 100% !important;
+                height: auto !important;
+                max-width: 100% !important;
+                aspect-ratio: 1 / 1;
+                object-fit: cover !important;
+            }
+            .product-cart-wrap .product-img-action-wrap .product-img a img.hover-img {
+                display: none !important;
+            }
+            .product-cart-wrap {
+                max-width: 100% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* --- Product Grid: 2 columns on mobile (2 side-by-side) --- */
+            .product-grid-4 > [class*="col-"],
+            .product-tabs .tab-content .tab-pane .row > [class*="col-"],
+            .tab-content .tab-pane .row > [class*="col-"],
+            .tab-content .row > [class*="col-"],
+            .row.product-grid-4 > [class*="col-"],
+            body .product-grid-4 > [class*="col-"],
+            body .tab-content .row > [class*="col-"] {
+                flex: 0 0 50% !important;
+                width: 50% !important;
+                max-width: 50% !important;
+                padding-left: 4px !important;
+                padding-right: 4px !important;
+            }
+            .product-cart-wrap {
+                padding: 10px 8px !important;
+                border-radius: 10px !important;
+                margin-bottom: 10px !important;
+            }
+            .product-content-wrap {
+                padding: 6px 2px 0 2px !important;
+            }
+            .product-content-wrap h2 {
+                font-size: 13px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 3px !important;
+                height: 34px !important;
+                overflow: hidden !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+            }
+            .product-content-wrap h2 a {
+                font-size: 13px !important;
+                line-height: 1.3 !important;
+            }
+            .product-content-wrap .product-category a {
+                font-size: 10px !important;
+            }
+
+            /* --- Product Card Bottom: stack price & button --- */
+            .product-cart-wrap .product-card-bottom,
+            body .product-card-bottom {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                justify-content: flex-start !important;
+                gap: 6px !important;
+                margin-top: 8px !important;
+            }
+            .product-cart-wrap .product-card-bottom .product-price,
+            body .product-card-bottom .product-price {
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 5px !important;
+                flex-wrap: wrap !important;
+            }
+            .product-cart-wrap .product-card-bottom .product-price span,
+            body .product-card-bottom .product-price span {
+                font-size: 15px !important;
+                line-height: 1 !important;
+            }
+            .product-cart-wrap .product-card-bottom .product-price .old-price,
+            body .product-card-bottom .product-price .old-price {
+                font-size: 11px !important;
+                margin-left: 0 !important;
+            }
+            .product-cart-wrap .product-card-bottom .add-cart,
+            body .product-card-bottom .add-cart {
+                width: 100% !important;
+                margin-top: 4px !important;
+            }
+            .product-cart-wrap .product-card-bottom .add-cart .d-flex,
+            body .product-card-bottom .add-cart .d-flex {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                gap: 4px !important;
+                width: 100% !important;
+            }
+            .product-cart-wrap .product-card-bottom .add-cart .add,
+            body .product-card-bottom .add-cart .add {
+                flex: 1 !important;
+                text-align: center !important;
+                padding: 6px 8px !important;
+                font-size: 11px !important;
+                white-space: nowrap !important;
+            }
+            .product-cart-wrap .product-card-bottom .add-cart .add-to-wishlist,
+            body .product-card-bottom .add-cart .add-to-wishlist {
+                padding: 6px !important;
+            }
+            
+            /* --- Deals of the Day (2 columns mobile) --- */
+            .product-cart-wrap.style-2 {
+                padding: 0 0 10px 0 !important;
+                margin-bottom: 15px !important;
+                border: none !important;
+            }
+            .product-cart-wrap.style-2 .product-img-action-wrap {
+                max-height: unset !important;
+                padding: 0 !important;
+            }
+            .product-cart-wrap.style-2 .product-img a img {
+                width: 100% !important;
+                height: auto !important;
+                aspect-ratio: 1 / 1 !important;
+                object-fit: cover !important;
+                border-radius: 10px !important;
+            }
+            .product-cart-wrap.style-2 .product-content-wrap {
+                margin-top: -30px !important;
+                max-width: 95% !important;
+                padding: 0 !important;
+            }
+            .product-cart-wrap.style-2 .deals-countdown-wrap {
+                position: absolute !important;
+                top: -36px !important;
+                width: 100% !important;
+                left: 0 !important;
+                display: flex !important;
+                justify-content: center !important;
+            }
+            .deals-countdown {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                justify-content: center !important;
+                gap: 2px !important;
+            }
+            .deals-countdown > span {
+                min-width: 28px !important;
+                padding: 2px 2px !important;
+                font-size: 8px !important;
+                flex: 1 1 auto !important;
+                text-align: center !important;
+                margin: 0 !important;
+                border-radius: 4px !important;
+            }
+            .deals-countdown .countdown-amount {
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                display: block !important;
+                line-height: 1.1 !important;
+            }
+            .deals-countdown .countdown-period {
+                font-size: 7px !important;
+                display: block !important;
+                line-height: 1 !important;
+                text-transform: uppercase !important;
+            }
+            .product-cart-wrap.style-2 .deals-content {
+                padding: 10px 8px !important;
+                border-radius: 8px !important;
+            }
+            .product-cart-wrap.style-2 .deals-content h2 {
+                font-size: 12px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 3px !important;
+                height: 32px !important;
+                overflow: hidden !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+            }
+            .product-cart-wrap.style-2 .deals-content h2 a {
+                font-size: 12px !important;
+                line-height: 1.3 !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .product-rate-cover {
+                font-size: 10px !important;
+                margin-bottom: 2px !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .font-small {
+                font-size: 10px !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .product-card-bottom {
+                margin-top: 6px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                gap: 4px !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .product-price {
+                width: 100% !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 4px !important;
+                flex-wrap: wrap !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .product-price span {
+                font-size: 14px !important;
+                line-height: 1 !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .product-price .old-price {
+                font-size: 10px !important;
+                margin-left: 0 !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .add-cart {
+                width: 100% !important;
+                margin-top: 4px !important;
+            }
+            .product-cart-wrap.style-2 .deals-content .add-cart .add {
+                display: block !important;
+                width: 100% !important;
+                text-align: center !important;
+                padding: 5px 8px !important;
+                font-size: 11px !important;
+                border-radius: 4px !important;
+            }
+
+            /* --- Subscribe / Newsletter Mobile --- */
+            .newsletter-inner {
+                padding: 30px 15px !important;
+                text-align: center !important;
+                border-radius: 15px !important;
+            }
+            .newsletter-inner > img {
+                display: none !important;
+            }
+            .newsletter-content {
+                max-width: 100% !important;
+                text-align: center !important;
+            }
+            .newsletter-content h2 {
+                font-size: 20px !important;
+                line-height: 1.3 !important;
+                padding: 0 !important;
+                margin-bottom: 10px !important;
+            }
+            .newsletter-content p {
+                font-size: 13px !important;
+                margin-bottom: 18px !important;
+            }
+            .form-subcriber {
+                display: flex !important;
+                flex-direction: row !important;
+                position: relative !important;
+                background-color: #fff !important;
+                border-radius: 50px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 48px !important;
+                align-items: center !important;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+                overflow: hidden !important;
+                margin: 0 auto !important;
+                border: 1px solid #e2e9e1 !important;
+            }
+            .form-subcriber input {
+                height: 100% !important;
+                border: 0 !important;
+                background: transparent !important;
+                padding-left: 18px !important;
+                padding-right: 110px !important;
+                width: 100% !important;
+                font-size: 13px !important;
+                border-radius: 50px 0 0 50px !important;
+                min-height: unset !important;
+                box-shadow: none !important;
+            }
+            .form-subcriber button.btn {
+                position: absolute !important;
+                right: 0 !important;
+                top: 0 !important;
+                height: 100% !important;
+                border-radius: 50px !important;
+                padding: 0 22px !important;
+                background: #82D000 !important;
+                color: #fff !important;
+                font-size: 13px !important;
+                font-weight: 700 !important;
+                border: 0 !important;
+                z-index: 2 !important;
+                white-space: nowrap !important;
+                min-height: unset !important;
+                width: auto !important;
+                transform: none !important;
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            /* --- Feature Icons (Best Prices, Free Delivery, etc.) 2-column mobile --- */
+            .featured .row > .col-sm-6,
+            .featured .row > [class*="col-lg-1-5"],
+            .featured .row > [class*="col-"] {
+                flex: 0 0 50% !important;
+                max-width: 50% !important;
+                width: 50% !important;
+                padding-left: 4px !important;
+                padding-right: 4px !important;
+                margin-bottom: 8px !important;
+            }
+            .banner-left-icon {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: flex-start !important;
+                padding: 10px 8px !important;
+                margin-bottom: 0 !important;
+                width: 100% !important;
+                min-height: 64px !important;
+                border-radius: 10px !important;
+            }
+            .banner-left-icon .banner-icon {
+                width: 32px !important;
+                min-width: 32px !important;
+                max-width: 32px !important;
+                margin-right: 8px !important;
+                flex-shrink: 0 !important;
+            }
+            .banner-left-icon .banner-icon img {
+                width: 100% !important;
+                height: auto !important;
+            }
+            .banner-left-icon .banner-text {
+                flex: 1 !important;
+                text-align: left !important;
+                min-width: 0 !important;
+            }
+            .banner-left-icon .banner-text h3 {
+                font-size: 11px !important;
+                font-weight: 700 !important;
+                margin-bottom: 2px !important;
+                line-height: 1.2 !important;
+            }
+            .banner-left-icon .banner-text p {
+                font-size: 9px !important;
+                margin-bottom: 0 !important;
+                line-height: 1.2 !important;
+            }
+
+            /* --- Deal products / Cards overflow --- */
+            .product-cart-wrap.style-2 .product-img a img {
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            /* --- Footer adjustments --- */
+            footer .row > [class*="col-"] {
+                margin-bottom: 20px !important;
+            }
+            footer .logo img {
+                transform: scale(1.5) !important;
+                transform-origin: left center !important;
+            }
+
+            /* --- Hero Slider (Mobile Compact) --- */
+            .home-slider,
+            body .home-slider {
+                margin-bottom: 10px !important;
+                height: auto !important;
+                min-height: 0 !important;
+            }
+            .home-slide-cover,
+            body .home-slide-cover {
+                margin-top: 0 !important;
+                padding: 0 !important;
+                height: 190px !important;
+                min-height: 190px !important;
+                max-height: 190px !important;
+            }
+            .hero-slider-1,
+            body .hero-slider-1,
+            .hero-slider-1 .slick-list,
+            .hero-slider-1 .slick-track,
+            .hero-slider-1 .single-hero-slider,
+            body .hero-slider-1 .single-hero-slider {
+                height: 190px !important;
+                min-height: 190px !important;
+                max-height: 190px !important;
+            }
+            .hero-slider-1 .single-hero-slider,
+            body .hero-slider-1 .single-hero-slider {
+                background-size: cover !important;
+                background-position: center right !important;
+                border-radius: 15px !important;
+                display: flex !important;
+                align-items: center !important;
+            }
+            .hero-slider-1 .slider-content,
+            body .hero-slider-1 .slider-content {
+                padding: 15px 15px !important;
+                text-align: left !important;
+                max-width: 65% !important;
+                position: relative !important;
+                z-index: 2 !important;
+            }
+            .hero-slider-1 .slider-content h1,
+            body .hero-slider-1 .slider-content h1,
+            body .hero-slider-1 .single-hero-slider .display-2 {
+                font-size: 16px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 4px !important;
+                font-weight: 700 !important;
+            }
+            .hero-slider-1 .slider-content p,
+            body .hero-slider-1 .slider-content p,
+            body .hero-slider-1 .single-hero-slider .slider-content p {
+                font-size: 11px !important;
+                line-height: 1.2 !important;
+                margin-bottom: 8px !important;
+            }
+            .hero-slider-1 .slider-content .btn,
+            body .hero-slider-1 .slider-content .btn {
+                padding: 4px 12px !important;
+                font-size: 11px !important;
+                border-radius: 4px !important;
+                line-height: 1.5 !important;
+                display: inline-block !important;
+            }
+            .dot-style-1 ul {
+                bottom: 8px !important;
+            }
+            .dot-style-1 ul li button {
+                width: 7px !important;
+                height: 7px !important;
+            }
+            .product-tabs.section-padding {
+                padding-top: 15px !important;
+                padding-bottom: 15px !important;
+            }
+        }
+
+        /* ===== SMALL PHONES (max-width: 400px) ===== */
+        @media (max-width: 400px) {
+            .home-slide-cover,
+            body .home-slide-cover,
+            .hero-slider-1,
+            body .hero-slider-1,
+            .hero-slider-1 .slick-list,
+            .hero-slider-1 .slick-track,
+            .hero-slider-1 .single-hero-slider,
+            body .hero-slider-1 .single-hero-slider {
+                height: 175px !important;
+                min-height: 175px !important;
+                max-height: 175px !important;
+            }
+            .hero-slider-1 .slider-content h1,
+            body .hero-slider-1 .slider-content h1 {
+                font-size: 15px !important;
+            }
+        }
+
+        /* ===== TABLET FIXES (768px - 991px) ===== */
+        @media (max-width: 991px) {
+            .product-cart-wrap .product-img-action-wrap .product-img a img.hover-img {
+                display: none !important;
+            }
+            .product-cart-wrap .product-img-action-wrap .product-img a img {
+                width: 100% !important;
+                height: auto !important;
+                aspect-ratio: 1 / 1;
+                object-fit: cover !important;
+            }
+            .form-subcriber input {
+                padding-right: 130px !important;
+            }
+
+            /* --- Hero Slider --- */
+            .slider-content {
+                text-align: center !important;
+                padding: 25px 20px !important;
+            }
+            .slider-content h1 {
+                font-size: 20px !important;
+                line-height: 1.3 !important;
+                margin-bottom: 8px !important;
+                text-shadow: 0 1px 3px rgba(0,0,0,0.15) !important;
+            }
+            .slider-content p {
+                font-size: 13px !important;
+                margin-bottom: 10px !important;
+            }
+            .slider-content .btn {
+                font-size: 12px !important;
+                padding: 8px 18px !important;
+            }
+            .hero-slider-1 .single-hero-slider {
+                min-height: 280px !important;
+                background-size: cover !important;
+                background-position: center !important;
+            }
+        }
+
+        /* ===== GLOBAL / DESKTOP HEADER & LOGO COMPACTNESS ===== */
+        html, body {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+        body .header-area,
+        body .header-style-1,
+        body .header-height-2 {
+            height: auto !important;
+            min-height: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-top: 0 !important;
+        }
+        body .header-middle,
+        body .header-middle-ptb-1,
+        body .header-style-1 .header-middle-ptb-1 {
+            padding: 2px 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 2px !important;
+            margin: 0 !important;
+            overflow: visible !important;
+        }
+        body .header-middle .header-wrap {
+            padding: 0 !important;
+            margin: 0 !important;
+            min-height: 0 !important;
+            overflow: visible !important;
+        }
+        body .header-bottom,
+        body .header-bottom-bg-color,
+        body .header-style-1 .header-bottom-bg-color {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            overflow: visible !important;
+        }
+        body .header-middle .logo.logo-width-1 {
+            overflow: visible !important;
+            min-width: 260px !important;
+            width: 260px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            margin-right: 20px !important;
+            margin-left: 0 !important;
+            position: relative !important;
+        }
+        body .header-middle .logo.logo-width-1 a {
+            overflow: visible !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            width: 100% !important;
+            position: relative !important;
+        }
+        body .header-middle .logo.logo-width-1 img {
+            width: 280px !important;
+            max-width: 280px !important;
+            height: auto !important;
+            max-height: 85px !important;
+            position: relative !important;
+            left: -130px !important;
+            top: 7px !important;
+            transform: scale(2.0) !important;
+            transform-origin: left center !important;
+            margin: 0 !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+
+        /* ===== GLOBAL NEWSLETTER PILL STYLES ===== */
+        .newsletter .newsletter-inner {
+            position: relative !important;
+            overflow: hidden !important;
+        }
+        .newsletter .newsletter-inner .newsletter-content {
+            position: relative !important;
+            z-index: 5 !important;
+            max-width: 560px !important;
+        }
+        .newsletter .newsletter-inner .newsletter-content form.form-subcriber {
+            display: flex !important;
+            position: relative !important;
+            background-color: #fff !important;
+            border-radius: 50px !important;
+            max-width: 460px !important;
+            height: 56px !important;
+            align-items: center !important;
+            z-index: 5 !important;
+            border: 1px solid #e2e9e1 !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+        }
+        .newsletter .newsletter-inner .newsletter-content form.form-subcriber input {
+            height: 100% !important;
+            border: 0 !important;
+            background: transparent !important;
+            padding-left: 25px !important;
+            padding-right: 145px !important;
+            width: 100% !important;
+            font-size: 14px !important;
+            border-radius: 50px 0 0 50px !important;
+            box-shadow: none !important;
+        }
+        .newsletter .newsletter-inner .newsletter-content form.form-subcriber button.btn {
+            position: absolute !important;
+            right: 0 !important;
+            top: 0 !important;
+            height: 100% !important;
+            border-radius: 50px !important;
+            padding: 0 35px !important;
+            background: #82D000 !important;
+            color: #fff !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            border: 0 !important;
+            z-index: 6 !important;
+            white-space: nowrap !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .newsletter .newsletter-inner img {
+            position: absolute !important;
+            right: 30px !important;
+            bottom: 0 !important;
+            max-width: 36% !important;
+            height: auto !important;
+            z-index: 1 !important;
+            pointer-events: none !important;
+        }
+
+        /* ===== Mobile Bottom Navigation Bar ===== */
+        .mobile-bottom-nav {
+            position: fixed !important;
+            bottom: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            width: 100% !important;
+            height: 56px !important;
+            background: #ffffff !important;
+            border-top: 1px solid #eef2f5 !important;
+            box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.07) !important;
+            z-index: 9999 !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        .mobile-bottom-nav-inner {
+            display: flex !important;
+            width: 100% !important;
+            height: 100% !important;
+            justify-content: space-around !important;
+            align-items: center !important;
+            padding: 2px 8px !important;
+        }
+        .mobile-bottom-nav-item {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            text-decoration: none !important;
+            color: #253D4E !important;
+            flex: 1 !important;
+            height: 100% !important;
+            transition: all 0.2s ease-in-out !important;
+        }
+        .mobile-bottom-nav-item i {
+            font-size: 20px !important;
+            line-height: 1 !important;
+            margin-bottom: 2px !important;
+            color: #253D4E !important;
+            transition: color 0.2s ease !important;
+        }
+        .mobile-bottom-nav-item span {
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            line-height: 1.1 !important;
+            color: #253D4E !important;
+            transition: color 0.2s ease !important;
+        }
+        .mobile-bottom-nav-item .icon-wrap {
+            position: relative !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .mobile-bottom-nav-item .icon-wrap .pro-count {
+            position: absolute !important;
+            top: -6px !important;
+            right: -10px !important;
+            background-color: #82D000 !important;
+            color: #ffffff !important;
+            font-size: 9px !important;
+            font-weight: 700 !important;
+            width: 15px !important;
+            height: 15px !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            line-height: 1 !important;
+        }
+        .mobile-bottom-nav-item:hover,
+        .mobile-bottom-nav-item.active {
+            color: #82D000 !important;
+        }
+        .mobile-bottom-nav-item:hover i,
+        .mobile-bottom-nav-item.active i,
+        .mobile-bottom-nav-item:hover span,
+        .mobile-bottom-nav-item.active span {
+            color: #82D000 !important;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                padding-bottom: 60px !important;
+            }
+        }
+        @media (min-width: 768px) {
+            .mobile-bottom-nav {
+                display: none !important;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <!-- Quick view -->
+    <div class="modal fade custom-modal" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12 mb-md-0 mb-sm-5">
+                            <div class="detail-gallery">
+                                <span class="zoom-icon"><i class="fi-rs-search"></i></span>
+                                <!-- MAIN SLIDES -->
+                                <div class="product-image-slider">
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-2.jpg' %}" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-1.jpg' %}" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-3.jpg' %}" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-4.jpg' %}" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-5.jpg' %}" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-6.jpg' %}" alt="product image" />
+                                    </figure>
+                                    <figure class="border-radius-10">
+                                        <img src="{% static 'assets/imgs/shop/product-16-7.jpg' %}" alt="product image" />
+                                    </figure>
+                                </div>
+                                <!-- THUMBNAILS -->
+                                <div class="slider-nav-thumbnails">
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-3.jpg' %}" alt="product image" /></div>
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-4.jpg' %}" alt="product image" /></div>
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-5.jpg' %}" alt="product image" /></div>
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-6.jpg' %}" alt="product image" /></div>
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-7.jpg' %}" alt="product image" /></div>
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-8.jpg' %}" alt="product image" /></div>
+                                    <div><img src="{% static 'assets/imgs/shop/thumbnail-9.jpg' %}" alt="product image" /></div>
+                                </div>
+                            </div>
+                            <!-- End Gallery -->
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="detail-info pr-30 pl-30">
+                                <span class="stock-status out-stock"> Sale Off </span>
+                                <h3 class="title-detail"><a href="#" class="text-heading">Seeds of Change Organic Quinoa, Brown</a></h3>
+                                <div class="product-detail-rating">
+                                    <div class="product-rate-cover text-end">
+                                        <div class="product-rate d-inline-block">
+                                            <div class="product-rating" style="width: 90%"></div>
+                                        </div>
+                                        <span class="font-small ml-5 text-muted"> (32 reviews)</span>
+                                    </div>
+                                </div>
+                                <div class="clearfix product-price-cover">
+                                    <div class="product-price primary-color float-left">
+                                        <span class="current-price text-brand">$38</span>
+                                        <span>
+                                            <span class="save-price font-md color3 ml-15">26% Off</span>
+                                        <span class="old-price font-md ml-15">$52</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="detail-extralink mb-30">
+                                    <div class="detail-qty border radius">
+                                        <a href="#" class="qty-down"><i class="fi-rs-angle-small-down"></i></a>
+                                        <span class="qty-val">1</span>
+                                        <a href="#" class="qty-up"><i class="fi-rs-angle-small-up"></i></a>
+                                    </div>
+                                    <div class="product-extra-link2">
+                                        <button type="submit" class="button button-add-to-cart"><i class="fi-rs-shopping-cart"></i>Add to cart</button>
+                                    </div>
+                                </div>
+                                <div class="font-xs">
+                                    <ul>
+                                        <li class="mb-5">Vendor: <span class="text-brand">Nest</span></li>
+                                        <li class="mb-5">MFG:<span class="text-brand"> Jun 4.2022</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Detail Info -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <header class="header-area header-style-1 header-height-2">
+
+
+        <div class="header-middle header-middle-ptb-1 d-none d-lg-block">
+            <div class="container">
+                <div class="header-wrap">
+                    <div class="logo logo-width-1">
+                        <a href="{% url 'core:index' %}">
+                            {% if site_settings_data and site_settings_data.logo %}
+                                <img src="{{ site_settings_data.logo.url }}" alt="{{ site_settings_data.title }}" style="height: auto; width: 260px; max-height: 75px; object-fit: contain;" />
+                            {% else %}
+                                <img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" style="height: auto; width: 260px; max-height: 75px; object-fit: contain;" />
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="header-right">
+                        <div class="search-style-2">
+                            <form action="{% url 'core:search' %}" method="GET">
+                                <select class="select-active">
+                                    <option>All Categories</option>
+                                    <option>Milks and Dairies</option>
+                                    <option>Wines & Alcohol</option>
+                                    <option>Clothing & Beauty</option>
+                                    <option>Pet Foods & Toy</option>
+                                    <option>Fast food</option>
+                                    <option>Baking material</option>
+                                    <option>Vegetables</option>
+                                    <option>Fresh Seafood</option>
+                                    <option>Noodles & Rice</option>
+                                    <option>Ice cream</option>
+                                </select>
+                                <input type="text" placeholder="Search for items..." name="q" />
+                                <button class="material-symbols-outlined" type="submit"><span class="material-symbols-outlined">search</span></button>
+
+                            </form>
+                        </div>
+                        <div class="header-action-right">
+                            <div class="header-action-2">
+                                <!-- <div class="header-action-icon-2">
+                                    <a href="shop-compare.html">
+                                        <img class="svgInject" alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-compare.svg' %}" />
+                                        <span class="pro-count blue ">3</span>
+                                    </a>
+                                    <a href="shop-compare.html"><span class="lable ml-0">Compare</span></a>
+                                </div> -->
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'core:wishlist' %}">
+                                        <img class="svgInject" alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}" />
+                                        {% if request.user.is_authenticated %}
+                                        <span class="pro-count blue">{{ wishlist.count }}</span>
+                                        {% else %}
+                                        <span class="pro-count blue">0</span>
+                                        {% endif %}
+                                    </a>
+                                    <a href="{% url 'core:wishlist' %}"><span class="lable">Wishlist</span></a>
+                                </div>
+                                <div class="header-action-icon-2">
+                                    <a class="mini-cart-icon" href="{% url 'core:cart' %}">
+                                        <img alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}" />
+                                        <span class="pro-count blue cart-items-count">{{ request.session.cart_data_obj|length }}</span>
+                                    </a>
+                                    <a href="{% url 'core:cart' %}"><span class="lable">Cart</span></a>
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2">
+
+                                        <div class="shopping-cart-footer">
+
+                                            <div class="shopping-cart-button">
+                                                <a href="{% url 'core:cart' %}" class="outline">View cart</a>
+                                                <a href="{% url 'core:checkout' %}">Checkout</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="header-action-icon-2">
+                                    <a href="{% url 'core:dashboard' %}">
+                                        <img class="svgInject" alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-user.svg' %}" />
+                                    </a>
+                                    <a href="{% url 'core:dashboard' %}"><span class="lable ml-0">Account</span></a>
+                                    <div class="cart-dropdown-wrap cart-dropdown-hm2 account-dropdown">
+                                        <ul>
+                                            <li><a href="{% url 'core:dashboard' %}"><i class="fi fi-rs-user mr-10"></i>My Account</a></li>
+                                            <li><a href="{% url 'useradmin:dashboard' %}"><i class="fi fi-rs-user mr-10"></i>Admin Dashboard</a></li>
+                                            <li><a href="page-account.html"><i class="fi fi-rs-location-alt mr-10"></i>Order Tracking</a></li>
+                                            <!-- <li><a href="page-account.html"><i class="fi fi-rs-label mr-10"></i>My Voucher</a></li> -->
+                                            <li><a href="{% url 'core:wishlist' %}"><i class="fi fi-rs-heart mr-10"></i>My Wishlist</a></li>
+                                            <li><a href="{% url 'core:dashboard' %}"><i class="fi fi-rs-settings-sliders mr-10"></i>Setting</a></li>
+                                            {% if request.user.is_authenticated %}
+                                            <li><a href="{% url 'userauths:sign-out' %}"><i class="fi fi-rs-sign-out mr-10"></i>Sign out</a></li>
+                                            {% else %}
+                                            <li><a href="{% url 'userauths:sign-in' %}"><i class="fi fi-rs-sign-in mr-10"></i>Sign In</a></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom header-bottom-bg-color sticky-bar">
+            <div class="container">
+                <div class="header-wrap header-space-between position-relative">
+                    <div class="logo logo-width-1 d-block d-lg-none">
+                        <a href="{% url 'core:index' %}">
+                            {% if site_settings_data and site_settings_data.logo %}
+                                <img src="{{ site_settings_data.logo.url }}" alt="{{ site_settings_data.title }}" style="height: auto; width: 220px; max-width: 100%; object-fit: contain;" />
+                            {% else %}
+                                <img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" style="height: auto; width: 220px; max-width: 100%; object-fit: contain;" />
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="header-nav d-none d-lg-flex">
+                        <div class="main-categori-wrap d-none d-lg-block">
+                            <a class="categories-button-active" href="#">
+                                <span class="fi-rs-apps"></span> <span class="et">Browse</span> All Categories
+                                <i class="fi-rs-angle-down"></i>
+                            </a>
+                            <div class="categories-dropdown-wrap categories-dropdown-active-large font-heading">
+                                <div class="d-flex categori-dropdown-inner">
+                                    <ul>
+                                        {% for c in categories %}
+
+                                        <li>
+                                            <a href="{% url 'core:category-product-list' c.cid %}"> <img src="{{ c.image.url }}" alt="" />{{c.title}}</a>
+                                        </li>
+                                        {% endfor %}
+
+                                    </ul>
+
+                                </div>
+
+                                <div class="more_categories"><span class="icon"></span> <span class="heading-sm-1">Show more...</span></div>
+                            </div>
+                        </div>
+                        <div class="main-menu main-menu-padding-1 main-menu-lh-2 d-none d-lg-block font-heading">
+                            <nav>
+                                <ul>
+                                    <li class="hot-deals"><img src="{% static 'assets/imgs/theme/icons/icon-hot.svg' %}" alt="hot deals" /><a href="{% url 'core:product-list' %}">Deals</a></li>
+                                    <li>
+                                        <a class="active" href="{% url 'core:index' %}">Home</a>
+
+                                    </li>
+
+                                    <li>
+                                        <a href="#">Category <i class="fi-rs-angle-down"></i></a>
+                                        <ul class="sub-menu">
+                                            {% for c in categories %}
+                                            <li><a href="{% url 'core:category-product-list' c.cid %}">{{c.title}}</a></li>
+                                            {% endfor %}
+                                            <hr>
+                                            <li><a href="{% url 'core:category-list' %}">All Categories</a></li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li>
+                                        <a href="{% url 'core:product-list'  %}">Shop</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{% url 'core:vendor-list' %}">Vendors </a>
+
+                                    </li>
+                                    <li class="position-static">
+                                        <a href="#">Mega menu <i class="fi-rs-angle-down"></i></a>
+                                        <ul class="mega-menu">
+                                            <li class="sub-mega-menu sub-mega-menu-width-22">
+                                                <a class="menu-title" href="#">Fruit & Vegetables</a>
+                                                <ul>
+                                                    <li><a href="#">Meat & Poultry</a></li>
+                                                    <li><a href="#">Fresh Vegetables</a></li>
+                                                    <li><a href="#">Herbs & Seasonings</a></li>
+                                                    <li><a href="#">Cuts & Sprouts</a></li>
+                                                    <li><a href="#">Exotic Fruits & Veggies</a></li>
+                                                    <li><a href="#">Packaged Produce</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="sub-mega-menu sub-mega-menu-width-22">
+                                                <a class="menu-title" href="#">Breakfast & Dairy</a>
+                                                <ul>
+                                                    <li><a href="#">Milk & Flavoured Milk</a></li>
+                                                    <li><a href="#">Butter and Margarine</a></li>
+                                                    <li><a href="#">Eggs Substitutes</a></li>
+                                                    <li><a href="#">Marmalades</a></li>
+                                                    <li><a href="#">Sour Cream</a></li>
+                                                    <li><a href="#">Cheese</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="sub-mega-menu sub-mega-menu-width-22">
+                                                <a class="menu-title" href="#">Meat & Seafood</a>
+                                                <ul>
+                                                    <li><a href="#">Breakfast Sausage</a></li>
+                                                    <li><a href="#">Dinner Sausage</a></li>
+                                                    <li><a href="#">Chicken</a></li>
+                                                    <li><a href="#">Sliced Deli Meat</a></li>
+                                                    <li><a href="#">Wild Caught Fillets</a></li>
+                                                    <li><a href="#">Crab and Shellfish</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="sub-mega-menu sub-mega-menu-width-34">
+                                                <div class="menu-banner-wrap">
+                                                    <a href="#"><img src="{% static 'assets/imgs/banner/banner-menu.png' %}" alt="Nest" /></a>
+                                                    <div class="menu-banner-content">
+                                                        <h4>Hot deals</h4>
+                                                        <h3>
+                                                            Don't miss<br /> Trending
+                                                        </h3>
+                                                        <div class="menu-banner-price">
+                                                            <span class="new-price text-success">Save to 50%</span>
+                                                        </div>
+                                                        <div class="menu-banner-btn">
+                                                            <a href="#">Shop now</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="menu-banner-discount">
+                                                        <h3>
+                                                            <span>25%</span> off
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a>Blog</a>
+
+                                    </li>
+                                    <li>
+                                        <a href="#">Pages <i class="fi-rs-angle-down"></i></a>
+                                        <ul class="sub-menu">
+                                            <li><a href="{% url 'core:about_us' %}">About Us</a></li>
+                                            <li><a href="{% url 'core:contact' %}">Contact</a></li>
+                                            <li><a href="{% url 'core:dashboard' %}">My Dashboard</a></li>
+                                            <li><a href="{% url 'core:purchase_guide' %}">Purchase Guide</a></li>
+                                            <li><a href="{% url 'core:privacy_policy' %}">Privacy Policy</a></li>
+                                            <li><a href="{% url 'core:terms_of_service' %}">Terms of Service</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="{% url 'core:contact' %}">Contact</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="hotline d-none d-lg-flex">
+                        <img src="{% static 'assets/imgs/theme/icons/icon-headphone.svg' %}" alt="hotline" />
+                        <p>1900 - 888<span>24/7 Support Center</span></p>
+                    </div>
+                    <div class="header-action-icon-2 d-block d-lg-none">
+                        <div class="burger-icon burger-icon-white">
+                            <span class="burger-icon-top"></span>
+                            <span class="burger-icon-mid"></span>
+                            <span class="burger-icon-bottom"></span>
+                        </div>
+                    </div>
+                    <div class="header-action-right d-block d-lg-none">
+                        <div class="header-action-2">
+                            <div class="header-action-icon-2">
+                                <a href="{% url 'core:wishlist' %}">
+                                    <img alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-heart.svg' %}" />
+                                    {% if request.user.is_authenticated %}
+                                    <span class="pro-count blue">{{ wishlist.count }}</span>
+                                    {% else %}
+                                    <span class="pro-count blue">0</span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            <div class="header-action-icon-2">
+                                <a class="mini-cart-icon" href="{% url 'core:cart' %}">
+                                    <img alt="Nest" src="{% static 'assets/imgs/theme/icons/icon-cart.svg' %}" />
+                                    <span class="pro-count white cart-items-count">{{ request.session.cart_data_obj|length }}</span>
+                                </a>
+                                <div class="cart-dropdown-wrap cart-dropdown-hm2">
+
+                                    <div class="shopping-cart-footer">
+                                        <div class="shopping-cart-button">
+                                            <a href="{% url 'core:cart' %}">View cart</a>
+                                            <a href="{% url 'core:checkout' %}">Checkout</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{message.tags}}">
+                            <strong>{{ message }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                <script>
+                    setTimeout (() => {
+                        $(".alert").alert("close");
+                    }, 3000)
+                </script>
+            </div>
+        </div>
+    </header>
+    <div class="mobile-header-active mobile-header-wrapper-style">
+        <div class="mobile-header-wrapper-inner">
+            <div class="mobile-header-top">
+                <div class="mobile-header-logo">
+                    <a href="{% url 'core:index' %}">
+                        {% if site_settings_data and site_settings_data.logo %}
+                            <img src="{{ site_settings_data.logo.url }}" alt="{{ site_settings_data.title }}" style="height: 55px; max-width: 150px; width: auto; object-fit: contain; transform: scale(1.6); transform-origin: left center;" />
+                        {% else %}
+                            <img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" style="height: 55px; max-width: 150px; width: auto; object-fit: contain; transform: scale(1.6); transform-origin: left center;" />
+                        {% endif %}
+                    </a>
+                </div>
+                <div class="mobile-menu-close close-style-wrap close-style-position-inherit">
+                    <button class="close-style search-close">
+                        <i class="icon-top"></i>
+                        <i class="icon-bottom"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="mobile-header-content-area">
+                <div class="mobile-search search-style-3 mobile-header-border">
+                    <form action="#">
+                        <input type="text" placeholder="Search for items…" />
+                        <button type="submit"><i class="fi-rs-search"></i></button>
+                    </form>
+                </div>
+                <div class="mobile-menu-wrap mobile-header-border">
+                    <!-- mobile menu start -->
+                    <nav>
+                        <ul class="mobile-menu font-heading">
+                            <li class="menu-item-has-children">
+                                <a href="/">Home</a>
+                                
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">shop</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Shop Grid – Right Sidebar</a></li>
+                                    <li><a href="shop-grid-left.html">Shop Grid – Left Sidebar</a></li>
+                                    <li><a href="shop-list-right.html">Shop List – Right Sidebar</a></li>
+                                    <li><a href="shop-list-left.html">Shop List – Left Sidebar</a></li>
+                                    <li><a href="shop-fullwidth.html">Shop - Wide</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Single Product</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">Product – Right Sidebar</a></li>
+                                            <li><a href="shop-product-left.html">Product – Left Sidebar</a></li>
+                                            <li><a href="shop-product-full.html">Product – No sidebar</a></li>
+                                            <li><a href="shop-product-vendor.html">Product – Vendor Infor</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href="shop-filter.html">Shop – Filter</a></li>
+                                    <li><a href="shop-wishlist.html">Shop – Wishlist</a></li>
+                                    <li><a href="shop-cart.html">Shop – Cart</a></li>
+                                    <li><a href="shop-checkout.html">Shop – Checkout</a></li>
+                                    <li><a href="shop-compare.html">Shop – Compare</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Shop Invoice</a>
+                                        <ul class="dropdown">
+                                            <li><a href="shop-invoice-1.html">Shop Invoice 1</a></li>
+                                            <li><a href="shop-invoice-2.html">Shop Invoice 2</a></li>
+                                            <li><a href="shop-invoice-3.html">Shop Invoice 3</a></li>
+                                            <li><a href="shop-invoice-4.html">Shop Invoice 4</a></li>
+                                            <li><a href="shop-invoice-5.html">Shop Invoice 5</a></li>
+                                            <li><a href="shop-invoice-6.html">Shop Invoice 6</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Vendors</a>
+                                <ul class="dropdown">
+                                    <li><a href="vendors-grid.html">Vendors Grid</a></li>
+                                    <li><a href="vendors-list.html">Vendors List</a></li>
+                                    <li><a href="vendor-details-1.html">Vendor Details 01</a></li>
+                                    <li><a href="vendor-details-2.html">Vendor Details 02</a></li>
+                                    <li><a href="vendor-dashboard.html">Vendor Dashboard</a></li>
+                                    <li><a href="vendor-guide.html">Vendor Guide</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Mega menu</a>
+                                <ul class="dropdown">
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Women's Fashion</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">Dresses</a></li>
+                                            <li><a href="#">Blouses & Shirts</a></li>
+                                            <li><a href="#">Hoodies & Sweatshirts</a></li>
+                                            <li><a href="#">Women's Sets</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Men's Fashion</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">Jackets</a></li>
+                                            <li><a href="#">Casual Faux Leather</a></li>
+                                            <li><a href="#">Genuine Leather</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Technology</a>
+                                        <ul class="dropdown">
+                                            <li><a href="#">Gaming Laptops</a></li>
+                                            <li><a href="#">Ultraslim Laptops</a></li>
+                                            <li><a href="#">Tablets</a></li>
+                                            <li><a href="#">Laptop Accessories</a></li>
+                                            <li><a href="#">Tablet Accessories</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="blog-category-fullwidth.html">Blog</a>
+                                <ul class="dropdown">
+                                    <li><a href="blog-category-grid.html">Blog Category Grid</a></li>
+                                    <li><a href="blog-category-list.html">Blog Category List</a></li>
+                                    <li><a href="blog-category-big.html">Blog Category Big</a></li>
+                                    <li><a href="blog-category-fullwidth.html">Blog Category Wide</a></li>
+                                    <li class="menu-item-has-children">
+                                        <a href="#">Single Product Layout</a>
+                                        <ul class="dropdown">
+                                            <li><a href="blog-post-left.html">Left Sidebar</a></li>
+                                            <li><a href="blog-post-right.html">Right Sidebar</a></li>
+                                            <li><a href="blog-post-fullwidth.html">No Sidebar</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Pages</a>
+                                <ul class="dropdown">
+                                    <li><a href="page-about.html">About Us</a></li>
+                                    <li><a href="page-contact.html">Contact</a></li>
+                                    <li><a href="page-account.html">My Account</a></li>
+                                    <li><a href="{% url 'userauths:sign-in' %}">Login</a></li>
+                                    <li><a href="page-register.html">Register</a></li>
+                                    <li><a href="page-forgot-password.html">Forgot password</a></li>
+                                    <li><a href="page-reset-password.html">Reset password</a></li>
+                                    <li><a href="page-purchase-guide.html">Purchase Guide</a></li>
+                                    <li><a href="page-privacy-policy.html">Privacy Policy</a></li>
+                                    <li><a href="page-terms.html">Terms of Service</a></li>
+                                    <li><a href="page-404.html">404 Page</a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-item-has-children">
+                                <a href="#">Language</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">English</a></li>
+                                    <li><a href="#">French</a></li>
+                                    <li><a href="#">German</a></li>
+                                    <li><a href="#">Spanish</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <!-- mobile menu end -->
+                </div>
+                <div class="mobile-header-info-wrap">
+                    <div class="single-mobile-header-info">
+                        <a href="page-contact.html"><i class="fi-rs-marker"></i> Our location </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="{% url 'userauths:sign-in' %}"><i class="fi-rs-user"></i>Log In / Sign Up </a>
+                    </div>
+                    <div class="single-mobile-header-info">
+                        <a href="#"><i class="fi-rs-headphones"></i>(+01) - 2345 - 6789 </a>
+                    </div>
+                </div>
+                <div class="mobile-social-icon mb-50">
+                    <h6 class="mb-15">Follow Us</h6>
+                    {% if social_links %}
+                        <a href="{{ social_links.facebook_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-facebook-white.svg' %}" alt="Facebook" /></a>
+                        <a href="{{ social_links.twitter_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-twitter-white.svg' %}" alt="Twitter" /></a>
+                        <a href="{{ social_links.instagram_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-instagram-white.svg' %}" alt="Instagram" /></a>
+                        <a href="{{ social_links.pinterest_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest-white.svg' %}" alt="Pinterest" /></a>
+                        <a href="{{ social_links.youtube_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-youtube-white.svg' %}" alt="YouTube" /></a>
+                    {% else %}
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-facebook-white.svg' %}" alt="Facebook" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-twitter-white.svg' %}" alt="Twitter" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-instagram-white.svg' %}" alt="Instagram" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest-white.svg' %}" alt="Pinterest" /></a>
+                        <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-youtube-white.svg' %}" alt="YouTube" /></a>
+                    {% endif %}
+                </div>
+                <div class="site-copyright">
+                    {% if site_settings_data and site_settings_data.copyright %}
+                        {{ site_settings_data.copyright|safe }}
+                    {% else %}
+                        Copyright 2019 - Present © Desphixs. All rights reserved. Powered by Desphixs.
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End header-->
+
+    {% block content %}
+
+
+
+    {% endblock content %}
+
+
+
+    <footer class="main">
+        <section class="newsletter mb-15">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="position-relative newsletter-inner">
+                            <div class="newsletter-content">
+                                <h2 class="mb-20">
+                                    {% if cta and cta.heading %}{{ cta.heading|safe }}{% else %}Stay home & get your daily <br /> needs from our shop{% endif %}
+                                </h2>
+                                <p class="mb-45">{% if cta and cta.sub_heading %}{{ cta.sub_heading|safe }}{% else %}Start You'r Daily Shopping with <span class="text-brand">Nest Mart</span>{% endif %}</p>
+                                <form class="form-subcriber d-flex">
+                                    <input type="email" placeholder="Your email address" />
+                                    <button class="btn" type="submit">Subscribe</button>
+                                </form>
+                            </div>
+                            {% if cta and cta.image %}
+                            <img src="{{ cta.image.url }}" alt="newsletter" />
+                            {% else %}
+                            <img src="{% static 'assets/imgs/banner/banner-9.png' %}" alt="newsletter" />
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="featured section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 mb-md-4 mb-xl-0">
+                        <div class="banner-left-icon d-flex align-items-center justify-content-center justify-content-md-start wow fadeIn animated">
+                            <div class="banner-icon">
+                                <img src="{% static 'assets/imgs/theme/icons/icon-1.svg' %}" alt="" />
+                            </div>
+                            <div class="banner-text text-center text-md-start">
+                                <h3 class="icon-box-title">Best prices & offers</h3>
+                                <p>Orders $50 or more</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center justify-content-center justify-content-md-start wow fadeIn animated">
+                            <div class="banner-icon">
+                                <img src="{% static 'assets/imgs/theme/icons/icon-2.svg' %}" alt="" />
+                            </div>
+                            <div class="banner-text text-center text-md-start">
+                                <h3 class="icon-box-title">Free delivery</h3>
+                                <p>24/7 amazing services</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center justify-content-center justify-content-md-start wow fadeIn animated">
+                            <div class="banner-icon">
+                                <img src="{% static 'assets/imgs/theme/icons/icon-3.svg' %}" alt="" />
+                            </div>
+                            <div class="banner-text text-center text-md-start">
+                                <h3 class="icon-box-title">Great daily deal</h3>
+                                <p>When you sign up</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center justify-content-center justify-content-md-start wow fadeIn animated">
+                            <div class="banner-icon">
+                                <img src="{% static 'assets/imgs/theme/icons/icon-4.svg' %}" alt="" />
+                            </div>
+                            <div class="banner-text text-center text-md-start">
+                                <h3 class="icon-box-title">Wide assortment</h3>
+                                <p>Mega Discounts</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6">
+                        <div class="banner-left-icon d-flex align-items-center justify-content-center justify-content-md-start wow fadeIn animated">
+                            <div class="banner-icon">
+                                <img src="{% static 'assets/imgs/theme/icons/icon-5.svg' %}" alt="" />
+                            </div>
+                            <div class="banner-text text-center text-md-start">
+                                <h3 class="icon-box-title">Easy returns</h3>
+                                <p>Within 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-1-5 col-md-4 col-12 col-sm-6 d-xl-none">
+                        <div class="banner-left-icon d-flex align-items-center wow fadeIn animated">
+                            <div class="banner-icon">
+                                <img src="{% static 'assets/imgs/theme/icons/icon-6.svg' %}" alt="" />
+                            </div>
+                            <div class="banner-text">
+                                <h3 class="icon-box-title">Safe delivery</h3>
+                                <p>Within 30 days</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section-padding footer-mid">
+            <div class="container pt-15 pb-20">
+                <div class="row">
+                    <div class="col">
+                        <div class="widget-about font-md mb-md-3 mb-lg-3 mb-xl-0">
+                            <div class="logo mb-30">
+                                <a href="{% url 'core:index' %}" class="mb-15">
+                                    {% if site_settings_data and site_settings_data.footer_logo %}
+                                        <img src="{{ site_settings_data.footer_logo.url }}" alt="{{ site_settings_data.title }}" style="height: 80px; max-width: 260px; width: auto; min-width: 0 !important; object-fit: contain; transform: scale(1.8); transform-origin: left center;" />
+                                    {% elif site_settings_data and site_settings_data.logo %}
+                                        <img src="{{ site_settings_data.logo.url }}" alt="{{ site_settings_data.title }}" style="height: 80px; max-width: 260px; width: auto; min-width: 0 !important; object-fit: contain; transform: scale(1.8); transform-origin: left center;" />
+                                    {% else %}
+                                        <img src="{% static 'assets/imgs/theme/logo.svg' %}" alt="logo" style="height: 80px; max-width: 260px; width: auto; min-width: 0 !important; object-fit: contain;" />
+                                    {% endif %}
+                                </a>
+                                <p class="font-lg text-heading">
+                                    {% if site_settings_data and site_settings_data.footer_description %}
+                                        {{ site_settings_data.footer_description|safe }}
+                                    {% elif site_settings_data and site_settings_data.description %}
+                                        {{ site_settings_data.description|safe }}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <ul class="contact-infor">
+                                {% if contact_info_data and contact_info_data.address %}
+                                <li><img src="{% static 'assets/imgs/theme/icons/icon-location.svg' %}" alt="" /><strong>Address: </strong> <span>{{ contact_info_data.address }}</span></li>
+                                {% endif %}
+                                {% if contact_info_data and contact_info_data.phone %}
+                                <li><img src="{% static 'assets/imgs/theme/icons/icon-contact.svg' %}" alt="" /><strong>Call Us:</strong><span>{{ contact_info_data.phone }}</span></li>
+                                {% endif %}
+                                {% if contact_info_data and contact_info_data.email %}
+                                <li><img src="{% static 'assets/imgs/theme/icons/icon-email-2.svg' %}" alt="" /><strong>Email:</strong><span>{{ contact_info_data.email }}</span></li>
+                                {% endif %}
+                                {% if contact_info_data and contact_info_data.working_hours %}
+                                <li><img src="{% static 'assets/imgs/theme/icons/icon-clock.svg' %}" alt="" /><strong>Hours:</strong><span>{{ contact_info_data.working_hours }}</span></li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% for column in footer_columns %}
+                        <div class="footer-link-widget col">
+                            <h4 class="widget-title">{{ column.title }}</h4>
+                            <ul class="footer-list mb-sm-5 mb-md-0">
+                                {% for link in column.links.all %}
+                                    <li><a href="{{ link.url }}">{{ link.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% empty %}
+                        <div class="footer-link-widget col">
+                            <h4 class="widget-title">Company</h4>
+                            <ul class="footer-list mb-sm-5 mb-md-0">
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">Support Center</a></li>
+                                <li><a href="#">Careers</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-link-widget col">
+                            <h4 class="widget-title">Account</h4>
+                            <ul class="footer-list mb-sm-5 mb-md-0">
+                                <li><a href="#">Sign In</a></li>
+                                <li><a href="#">View Cart</a></li>
+                                <li><a href="#">My Wishlist</a></li>
+                                <li><a href="#">Track My Order</a></li>
+                                <li><a href="#">Help Ticket</a></li>
+                                <li><a href="#">Shipping Details</a></li>
+                                <li><a href="#">Compare products</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-link-widget col">
+                            <h4 class="widget-title">Corporate</h4>
+                            <ul class="footer-list mb-sm-5 mb-md-0">
+                                <li><a href="#">Become a Vendor</a></li>
+                                <li><a href="#">Affiliate Program</a></li>
+                                <li><a href="#">Farm Business</a></li>
+                                <li><a href="#">Farm Careers</a></li>
+                                <li><a href="#">Our Suppliers</a></li>
+                                <li><a href="#">Accessibility</a></li>
+                                <li><a href="#">Promotions</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-link-widget col">
+                            <h4 class="widget-title">Popular</h4>
+                            <ul class="footer-list mb-sm-5 mb-md-0">
+                                <li><a href="#">Milk & Flavoured Milk</a></li>
+                                <li><a href="#">Butter and Margarine</a></li>
+                                <li><a href="#">Eggs Substitutes</a></li>
+                                <li><a href="#">Marmalades</a></li>
+                                <li><a href="#">Sour Cream and Dips</a></li>
+                                <li><a href="#">Tea & Kombucha</a></li>
+                                <li><a href="#">Cheese</a></li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                    <div class="footer-link-widget widget-install-app col">
+                        <h4 class="widget-title">Install App</h4>
+                        <p class="wow fadeIn animated">From App Store or Google Play</p>
+                        <div class="download-app">
+                            <a href="#" class="hover-up mb-sm-2 mb-lg-0"><img class="active" src="{% static 'assets/imgs/theme/app-store.jpg' %}" alt="" /></a>
+                            <a href="#" class="hover-up mb-sm-2"><img src="{% static 'assets/imgs/theme/google-play.jpg' %}" alt="" /></a>
+                        </div>
+                        <p class="mb-20">Secured Payment Gateways</p>
+                        <img class="wow fadeIn animated" src="{% static 'assets/imgs/theme/payment-method.png' %}" alt="" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="container pb-30">
+            <div class="row align-items-center">
+                <div class="col-12 mb-30">
+                    <div class="footer-bottom"></div>
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6">
+                    <p class="font-sm mb-0">
+                        {% if site_settings_data and site_settings_data.copyright %}
+                            {{ site_settings_data.copyright|safe }}
+                        {% else %}
+                            &copy; 2022, <strong class="text-brand">Nest</strong> - HTML Ecommerce Template <br />All rights reserved
+                        {% endif %}
+                        <br />
+                        {% if site_settings_data and site_settings_data.developer_company %}
+                            Powered by 
+                            {% if site_settings_data.developer_link %}<a href="{{ site_settings_data.developer_link }}" target="_blank">{% endif %}
+                            {{ site_settings_data.developer_company|safe }}
+                            {% if site_settings_data.developer_link %}</a>{% endif %}
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="col-xl-4 col-lg-6 text-center d-none d-xl-block">
+                    {% for number in support_numbers %}
+                        <div class="hotline d-lg-inline-flex{% if forloop.first %} mr-30{% endif %}">
+                            <img src="{% static 'assets/imgs/theme/icons/phone-call.svg' %}" alt="hotline" />
+                            <p>{{ number.phone }}<span>{{ number.label|default:"Support Center" }}</span></p>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-xl-4 col-lg-6 col-md-6 text-end d-none d-md-block">
+                    <div class="mobile-social-icon">
+                        <h6>Follow Us</h6>
+                        {% if social_links %}
+                            <a href="{{ social_links.facebook_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-facebook-white.svg' %}" alt="Facebook" /></a>
+                            <a href="{{ social_links.twitter_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-twitter-white.svg' %}" alt="Twitter" /></a>
+                            <a href="{{ social_links.instagram_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-instagram-white.svg' %}" alt="Instagram" /></a>
+                            <a href="{{ social_links.pinterest_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest-white.svg' %}" alt="Pinterest" /></a>
+                            <a href="{{ social_links.youtube_url|default:'#' }}"><img src="{% static 'assets/imgs/theme/icons/icon-youtube-white.svg' %}" alt="YouTube" /></a>
+                        {% else %}
+                            <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-facebook-white.svg' %}" alt="Facebook" /></a>
+                            <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-twitter-white.svg' %}" alt="Twitter" /></a>
+                            <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-instagram-white.svg' %}" alt="Instagram" /></a>
+                            <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-pinterest-white.svg' %}" alt="Pinterest" /></a>
+                            <a href="#"><img src="{% static 'assets/imgs/theme/icons/icon-youtube-white.svg' %}" alt="YouTube" /></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Bottom Sticky Navigation -->
+    <div class="mobile-bottom-nav d-block d-md-none">
+        <div class="mobile-bottom-nav-inner">
+            <a href="{% url 'core:index' %}" class="mobile-bottom-nav-item {% if request.path == '/' %}active{% endif %}">
+                <i class="fi fi-rs-home"></i>
+                <span>Home</span>
+            </a>
+            <a href="{% url 'core:wishlist' %}" class="mobile-bottom-nav-item {% if 'wishlist' in request.path %}active{% endif %}">
+                <div class="icon-wrap">
+                    <i class="fi fi-rs-heart"></i>
+                    <span class="pro-count">{{ wishlist.count|default:0 }}</span>
+                </div>
+                <span>Wishlist</span>
+            </a>
+            <a href="{% url 'core:checkout' %}" class="mobile-bottom-nav-item {% if 'checkout' in request.path %}active{% endif %}">
+                <i class="fi fi-rs-credit-card"></i>
+                <span>Checkout</span>
+            </a>
+            <a href="{% if request.user.is_authenticated %}{% url 'core:dashboard' %}{% else %}{% url 'userauths:sign-in' %}{% endif %}" class="mobile-bottom-nav-item {% if 'dashboard' in request.path or 'sign-in' in request.path %}active{% endif %}">
+                <i class="fi fi-rs-user"></i>
+                <span>Account</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Preloader Start -->
+    <!-- <div id="preloader-active">
+        <div class="preloader d-flex align-items-center justify-content-center">
+            <div class="preloader-inner position-relative">
+                <div class="text-center">
+                    <img src="{% static '{% static ' %}'assets/imgs/theme/loading.gif' %}" alt="" />
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- Vendor JS-->
+    <script data-cfasync="false" src="{% static '/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/modernizr-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/jquery-migrate-3.3.0.min.js' %}"></script>
+    <script src="{% static 'assets/js/vendor/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/slick.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.syotimer.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/wow.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/slider-range.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/perfect-scrollbar.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/magnific-popup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/select2.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/waypoints.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/counterup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/images-loaded.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/isotope.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/scrollup.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.vticker-min.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.theia.sticky.js' %}"></script>
+    <script src="{% static 'assets/js/plugins/jquery.elevatezoom.js' %}"></script>
+    <!-- Template  JS -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
+    <script src="{% static 'assets/js/shop.js' %}"></script>
+    <script src="{% static 'assets/js/function.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+{% extends 'useradmin/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block content %}
+<section class="content-main">
+    <div class="content-header">
+        <div>
+            <h2 class="content-title card-title">Order Detail</h2>
+            <p>Details for Order ID: #{{ order.sku }} (Invoice: INVOICE_NO-{{ order.id }})</p>
+        </div>
+        <div>
+            <a href="{% url 'useradmin:dashboard-orders' %}" class="btn btn-outline-secondary">
+                <i class="material-icons md-arrow_back"></i> Back to Orders
+            </a>
+        </div>
+    </div>
+    
+    {% if messages %}
+    <div class="mb-4">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="card mb-4">
+        <header class="card-header">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                    <span>
+                        <i class="material-icons md-calendar_today"></i> <b>{{ order.order_date|date:"D, d M Y, H:i" }}</b>
+                    </span> <br />
+                    <small class="text-muted">Order ID: #{{ order.sku }}</small>
+                </div>
+                <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                    <form method="POST" action="{% url 'useradmin:dashboard-change-order-status' order.id %}" class="d-inline-flex align-items-center justify-content-end">
+                        {% csrf_token %}
+                        <select name="status" class="form-select d-inline-block w-auto me-2">
+                            <option value="processing" {% if order.product_status == 'processing' %}selected{% endif %}>Processing</option>
+                            <option value="shipped" {% if order.product_status == 'shipped' %}selected{% endif %}>Shipped</option>
+                            <option value="delivered" {% if order.product_status == 'delivered' %}selected{% endif %}>Delivered</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary btn-sm">Update Status</button>
+                    </form>
+                </div>
+            </div>
+        </header>
+        <div class="card-body">
+            <div class="row mb-50 mt-20 order-info-wrap">
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-person"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Customer</h6>
+                            <p class="mb-1">
+                                <strong>{{ order.user.username|title }}</strong> <br />
+                                {{ order.user.email }} <br />
+                                {% if address and address.mobile %}Phone: {{ address.mobile }}{% endif %}
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-local_shipping"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Order Status</h6>
+                            <p class="mb-1">
+                                Status: <span class="badge badge-pill badge-soft-info">{{ order.product_status|title }}</span> <br />
+                                Payment: 
+                                {% if order.paid_status %}
+                                <span class="badge badge-pill badge-soft-success">Paid</span>
+                                {% else %}
+                                <span class="badge badge-pill badge-soft-danger">Not Paid</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-4">
+                    <article class="icontext align-items-start">
+                        <span class="icon icon-sm rounded-circle bg-primary-light">
+                            <i class="text-primary material-icons md-place"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1">Deliver to</h6>
+                            <p class="mb-1">
+                                {% if address and address.address %}
+                                    {{ address.address }}
+                                {% else %}
+                                    <span class="text-muted">Standard address on file</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-12">
+                    <h5 class="mb-3">
+                        {% if request.user.is_superuser %}
+                            All Order Items
+                        {% else %}
+                            Your Order Items
+                        {% endif %}
+                    </h5>
+                    <div class="table-responsive">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="40%">Product</th>
+                                    <th width="15%">Unit Price</th>
+                                    <th width="15%">Quantity</th>
+                                    {% if request.user.is_superuser %}
+                                    <th width="15%">Vendor</th>
+                                    {% endif %}
+                                    <th width="15%" class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in order_items %}
+                                <tr>
+                                    <td>
+                                        <a class="itemside d-flex align-items-center" href="#">
+                                            <div class="left me-3">
+                                                {% if item.product and item.product.image %}
+                                                    <img src="{{ item.product.image.url }}" width="50" height="50" class="img-xs rounded border" alt="{{ item.item }}">
+                                                {% elif item.image %}
+                                                    <img src="/media/{{ item.image }}" width="50" height="50" class="img-xs rounded border" alt="{{ item.item }}">
+                                                {% else %}
+                                                    <img src="{% static 'assets2/imgs/items/1.jpg' %}" width="50" height="50" class="img-xs rounded border" alt="Item">
+                                                {% endif %}
+                                            </div>
+                                            <div class="info">
+                                                <h6 class="mb-0">{{ item.item }}</h6>
+                                                {% if item.product and item.product.sku %}
+                                                <small class="text-muted">SKU: {{ item.product.sku }}</small>
+                                                {% endif %}
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td>${{ item.price }}</td>
+                                    <td>{{ item.qty }}</td>
+                                    {% if request.user.is_superuser %}
+                                    <td>
+                                        {% if item.vendor %}
+                                        <span class="badge badge-pill badge-soft-primary">{{ item.vendor.title }}</span>
+                                        {% else %}
+                                        <span class="text-muted">No Vendor</span>
+                                        {% endif %}
+                                    </td>
+                                    {% endif %}
+                                    <td class="text-end fw-bold">${{ item.total }}</td>
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td colspan="{% if request.user.is_superuser %}4{% else %}3{% endif %}" class="text-end">
+                                        <article class="float-end">
+                                            <dl class="dlist d-flex justify-content-between">
+                                                <dt class="me-4">
+                                                    {% if request.user.is_superuser %}
+                                                        Grand Total:
+                                                    {% else %}
+                                                        Your Products Subtotal:
+                                                    {% endif %}
+                                                </dt>
+                                                <dd><b class="h5">${{ order_subtotal }}</b></dd>
+                                            </dl>
+                                        </article>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

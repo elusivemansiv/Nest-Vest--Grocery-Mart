@@ -1,0 +1,142 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static jazzmin admin_dashboard_tags %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+{% block bodyclass %}{{ block.super }} dashboard{% endblock %}
+
+{% block content_title %} {% trans 'Dashboard' %} {% endblock %}
+
+{% block breadcrumbs %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
+        <li class="breadcrumb-item">{% trans 'Dashboard' %}</li>
+    </ol>
+{% endblock %}
+
+
+{% block content %}
+    {% get_dashboard_stats as stats %}
+
+    <div class="col-12">
+        <!-- Custom Dashboard Metrics Cards -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>{{ stats.underway_orders }}</h3>
+                        <p>Underway Orders</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-success">
+                    <div class="inner">
+                        <h3>{{ stats.all_orders }}</h3>
+                        <p>All Orders</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-warning">
+                    <div class="inner">
+                        <h3>{{ stats.user_registrations }}</h3>
+                        <p>User Registrations</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-6">
+                <div class="small-box bg-danger">
+                    <div class="inner">
+                        <h3>{{ stats.all_products }}</h3>
+                        <p>All Products</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header border-0">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="card-title">Sale statistics</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="position-relative mb-4">
+                            <canvas id="salesChart" height="400"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extrajs %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var ctx = document.getElementById('salesChart').getContext('2d');
+        
+        // Parse data from Django safely
+        var rawLabels = '{{ stats.chart_labels|escapejs }}';
+        var rawSales = '{{ stats.chart_sales|escapejs }}';
+        var rawProducts = '{{ stats.chart_products|escapejs }}';
+        
+        var labels = JSON.parse(rawLabels || '[]');
+        var sales = JSON.parse(rawSales || '[]');
+        var products = JSON.parse(rawProducts || '[]');
+        
+        var salesChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Sales',
+                        data: sales,
+                        backgroundColor: 'rgba(60,141,188,0.2)',
+                        borderColor: 'rgba(60,141,188,1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Products',
+                        data: products,
+                        backgroundColor: 'rgba(210, 214, 222, 0.2)',
+                        borderColor: 'rgba(210, 214, 222, 1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

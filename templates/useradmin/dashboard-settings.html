@@ -1,0 +1,38 @@
+{% extends 'useradmin/base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+{{ form.media }}
+{% block content %}   
+            <section class="content-main">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="content-header">
+                                <h2 class="content-title">Vendor Settings</h2>
+                                <div>
+                                    <button type="submit" class="btn btn-md rounded font-sm hover-up">Save Changes</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h4>Store Details</h4>
+                                </div>
+                                <div class="card-body">
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% bootstrap_form form %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </section>
+{% endblock %}

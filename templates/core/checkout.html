@@ -1,0 +1,151 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'core:index' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                    <span></span> Shop
+                    <span></span> Checkout
+                </div>
+            </div>
+        </div>
+        <div class="container mb-80 mt-50">
+            <div class="row">
+                <div class="col-lg-8 mb-40">
+                    <h1 class="heading-2 mb-10">Checkout</h1>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="text-body">There are <span class="text-brand">{{ totalcartitems }}</span> products in your cart</h6>
+                    </div>
+                </div>
+            </div>
+            
+            <form method="POST" action="{% url 'core:checkout' %}" id="checkout-main-form">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="row">
+                            <h4 class="mb-30">Billing Details</h4>
+                            <div class="row">
+                                <div class="form-group col-lg-6 mb-20">
+                                    <label class="form-label font-weight-bold">First Name <span class="text-danger">*</span></label>
+                                    <input type="text" required="" name="fname" value="{{ request.user.username|title }}" placeholder="First name *" class="form-control">
+                                </div>
+                                <div class="form-group col-lg-6 mb-20">
+                                    <label class="form-label font-weight-bold">Phone / Mobile <span class="text-danger">*</span></label>
+                                    <input type="text" required="" name="lname" placeholder="Mobile Number *" value="{{ active_address.mobile|default:'' }}" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-lg-12 mb-20">
+                                    <label class="form-label font-weight-bold">Billing / Delivery Address <span class="text-danger">*</span></label>
+                                    <input type="text" name="billing_address" value="{{ active_address.address|default:'' }}" required="" placeholder="Street address, House / Flat no. *" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-5">
+                        <div class="border p-40 cart-totals ml-30 mb-50" style="border-radius: 12px; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+                            <div class="d-flex align-items-end justify-content-between mb-30">
+                                <h4>Your Order</h4>
+                                <h6 class="text-muted">Subtotal - <span class="text-brand" style="font-size: 18px; font-weight: 700;">${{ cart_total_amount|floatformat:2 }}</span></h6>
+                            </div>
+                            <div class="divider-2 mb-30"></div>
+                            
+                            <div class="table-responsive order_table checkout">
+                                <table class="table no-border">
+                                    <tbody>
+                                        {% for product_id, item in cart_data.items %}
+                                        <tr>
+                                            <td class="image product-thumbnail"><img src="{{ item.image }}" alt="#" style="width: 55px; height: 55px; object-fit: contain; border-radius: 6px;"></td>
+                                            <td>
+                                                <h6 class="w-160 mb-5"><a href="{% url 'core:product-detail' item.pid %}" class="text-heading">{{ item.title }}</a></h6>
+                                            </td>
+                                            <td>
+                                                <h6 class="text-muted pl-15 pr-15">x {{ item.qty }}</h6>
+                                            </td>
+                                            <td>
+                                                <h5 class="text-muted">${{ item.price|floatformat:2 }}</h5>
+                                            </td>
+                                            <td>
+                                                <h5 class="text-brand">${{ item.sub_total|floatformat:2 }}</h5>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <a href="{% url 'core:cart' %}" class="btn btn-outline btn-block mt-20 mb-10 w-100 text-center" style="border: 1px solid #ddd; padding: 10px; border-radius: 6px; font-weight: 600; color: #555;">Modify Cart</a>
+                        </div>
+                        
+                        <div class="payment ml-30 p-40 border" style="border-radius: 12px; background: #fff; box-shadow: 0 4px 20px rgba(0,0,0,0.04);">
+                            <h4 class="mb-30">Payment Method</h4>
+                            <div class="payment_option mb-25">
+                                <div class="custome-radio mb-15">
+                                    <input class="form-check-input payment-radio-option" required="" type="radio" name="payment_option" id="payment_cod" value="cod" checked>
+                                    <label class="form-check-label font-weight-bold" for="payment_cod" style="cursor: pointer; font-size: 15px;">Cash on delivery</label>
+                                </div>
+                                <div class="custome-radio mb-15">
+                                    <input class="form-check-input payment-radio-option" required="" type="radio" name="payment_option" id="payment_bank" value="bank_transfer">
+                                    <label class="form-check-label font-weight-bold" for="payment_bank" style="cursor: pointer; font-size: 15px;">Direct Bank Transfer</label>
+                                </div>
+                                <div class="custome-radio mb-15">
+                                    <input class="form-check-input payment-radio-option" required="" type="radio" name="payment_option" id="payment_paypal" value="paypal">
+                                    <label class="form-check-label font-weight-bold" for="payment_paypal" style="cursor: pointer; font-size: 15px;">Online Gateway (PayPal)</label>
+                                </div>
+                            </div>
+                            
+                            <div class="payment-logo d-flex mb-25">
+                                <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-paypal.svg' %}" alt="">
+                                <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-visa.svg' %}" alt="">
+                                <img class="mr-15" src="{% static 'assets/imgs/theme/icons/payment-master.svg' %}" alt="">
+                                <img src="{% static 'assets/imgs/theme/icons/payment-zapper.svg' %}" alt="">
+                            </div>
+                            
+                            <!-- Submit Button for Cash on delivery and Bank Transfer -->
+                            <div id="cod-submit-section" class="mt-20">
+                                <button type="submit" id="place-order-submit-btn" class="btn btn-fill-out btn-block w-100" style="background-color: #82D000; border: none; font-size: 16px; font-weight: 700; padding: 15px 25px; border-radius: 8px; color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+                                    <span>Place Order Now</span> <i class="fi-rs-sign-out ml-10"></i>
+                                </button>
+                            </div>
+                            
+                            <!-- PayPal Button Container for Online Gateway -->
+                            <div id="paypal-submit-section" class="mt-20 w-100" style="display: none;">
+                                {{ paypal_payment_button.render }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const paymentRadios = document.querySelectorAll('.payment-radio-option');
+            const codSection = document.getElementById('cod-submit-section');
+            const paypalSection = document.getElementById('paypal-submit-section');
+
+            function updatePaymentDisplay() {
+                const selected = document.querySelector('.payment-radio-option:checked');
+                if (selected && selected.value === 'paypal') {
+                    if (codSection) codSection.style.display = 'none';
+                    if (paypalSection) paypalSection.style.display = 'block';
+                } else {
+                    if (codSection) codSection.style.display = 'block';
+                    if (paypalSection) paypalSection.style.display = 'none';
+                }
+            }
+
+            paymentRadios.forEach(radio => {
+                radio.addEventListener('change', updatePaymentDisplay);
+            });
+
+            // Initial call
+            updatePaymentDisplay();
+        });
+    </script>
+{% endblock content %}

@@ -1,0 +1,451 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% block content %}
+    <style>
+        .dashboard-page-wrap {
+            padding-top: 30px;
+            padding-bottom: 80px;
+        }
+        @media (min-width: 768px) {
+            .dashboard-page-wrap {
+                padding-top: 60px;
+                padding-bottom: 100px;
+            }
+        }
+        
+        /* Mobile dashboard tabs styling */
+        @media (max-width: 767.98px) {
+            .dashboard-menu {
+                margin-bottom: 25px;
+            }
+            .dashboard-menu ul.nav {
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                padding: 4px 2px 10px 2px !important;
+                gap: 8px !important;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+            }
+            .dashboard-menu ul.nav::-webkit-scrollbar {
+                height: 4px;
+            }
+            .dashboard-menu ul.nav::-webkit-scrollbar-thumb {
+                background: #82D000;
+                border-radius: 4px;
+            }
+            .dashboard-menu ul.nav .nav-item {
+                flex: 0 0 auto !important;
+                margin-bottom: 0 !important;
+            }
+            .dashboard-menu ul.nav .nav-link {
+                padding: 8px 16px !important;
+                border-radius: 25px !important;
+                font-size: 13px !important;
+                font-weight: 600 !important;
+                white-space: nowrap !important;
+                display: flex !important;
+                align-items: center !important;
+                border: 1px solid #e2e8f0 !important;
+                background: #fff !important;
+                color: #555 !important;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            }
+            .dashboard-menu ul.nav .nav-link i {
+                margin-right: 6px !important;
+                font-size: 14px !important;
+            }
+            .dashboard-menu ul.nav .nav-link.active {
+                background-color: #82D000 !important;
+                color: #fff !important;
+                border-color: #82D000 !important;
+            }
+            .dashboard-menu ul.nav .nav-link.active i {
+                color: #fff !important;
+            }
+            .dashboard-content-area {
+                padding-left: 0 !important;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .dashboard-content-area {
+                padding-left: 35px;
+            }
+            .dashboard-menu ul.nav .nav-link.active {
+                background-color: #82D000 !important;
+                color: #fff !important;
+                border-color: #82D000 !important;
+            }
+            .dashboard-menu ul.nav .nav-link.active i {
+                color: #fff !important;
+            }
+        }
+    </style>
+
+    <main class="main pages">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="{% url 'core:index' %}" rel="nofollow"><i class="fi-rs-home mr-5"></i>Home</a>
+                    <span></span> Pages <span></span> My Account
+                </div>
+            </div>
+        </div>
+        <div class="page-content dashboard-page-wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-11 m-auto">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="dashboard-menu">
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="profile-tab" data-bs-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="true"><i class="fi-rs-user mr-10"></i>Profile</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="dashboard-tab" data-bs-toggle="tab" href="#dashboard" role="tab" aria-controls="dashboard" aria-selected="false"><i class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false"><i class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="address-tab" data-bs-toggle="tab" href="#address" role="tab" aria-controls="address" aria-selected="false"><i class="fi-rs-marker mr-10"></i>My Address</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="false"><i class="fi-rs-user mr-10"></i>Account Details</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'userauths:sign-out' %}"><i class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-9">
+                                <div class="tab-content account dashboard-content dashboard-content-area">
+                                    
+                                    <!-- PROFILE TAB -->
+                                    <div class="tab-pane fade active show" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="card" style="border-radius: 16px; border: 1px solid #eef2f6; box-shadow: 0 4px 20px rgba(0,0,0,0.04); overflow: hidden; background: #fff;">
+                                            
+                                            <!-- Header Banner & Avatar -->
+                                            <div style="background: linear-gradient(135deg, #F4FDE6 0%, #E2F8C2 100%); padding: 30px 20px 20px; text-align: center; border-bottom: 1px solid #e2f2c8;">
+                                                <div style="width: 100px; height: 100px; margin: 0 auto 12px; border-radius: 50%; overflow: hidden; border: 3px solid #82D000; box-shadow: 0 4px 15px rgba(130,208,0,0.25); display: flex; align-items: center; justify-content: center; background: #fff;">
+                                                    {% if user_profile.image %}
+                                                        <img src="{{ user_profile.image.url }}" style="width: 100%; height: 100%; object-fit: cover;" alt="Profile Picture">
+                                                    {% else %}
+                                                        <i class="fi-rs-user" style="font-size: 48px; color: #82D000;"></i>
+                                                    {% endif %}
+                                                </div>
+                                                <h4 class="mb-5 font-weight-bold" style="font-size: 20px; color: #253D4E;">{{ user_profile.full_name|default:request.user.username|title }}</h4>
+                                                <p class="text-muted font-sm mb-10">@{{ request.user.username }}</p>
+                                                <div>
+                                                    {% if user_profile.verified %}
+                                                        <span class="badge" style="background-color: #82D000; color: #fff; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;"><i class="fas fa-check-circle mr-5"></i> Verified User</span>
+                                                    {% else %}
+                                                        <span class="badge" style="background-color: #fff; color: #555; border: 1px solid #d1d5db; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600;"><i class="fas fa-user-check mr-5"></i> Active Member</span>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <!-- Profile Details List -->
+                                            <div class="p-3 p-md-4">
+                                                <div class="d-flex justify-content-between align-items-center mb-20">
+                                                    <h5 class="mb-0 font-weight-bold" style="font-size: 17px; color: #253D4E;">Account Information</h5>
+                                                    <a href="{% url 'userauths:profile-update' %}" class="btn btn-sm d-none d-md-inline-flex" style="background-color: #82D000; color: #fff; border: none; font-weight: 600; padding: 7px 16px; border-radius: 6px; font-size: 13px; align-items: center;">
+                                                        <i class="fi-rs-edit mr-5"></i> Edit Profile
+                                                    </a>
+                                                </div>
+
+                                                <div class="list-group list-group-flush" style="border-radius: 12px; overflow: hidden; border: 1px solid #f1f5f9;">
+                                                    
+                                                    <div class="list-group-item d-flex align-items-center py-3 px-3 px-md-4" style="background: #fff; border-bottom: 1px solid #f1f5f9;">
+                                                        <div style="width: 38px; height: 38px; min-width: 38px; border-radius: 8px; background: #F4FDE6; display: flex; align-items: center; justify-content: center; color: #82D000; margin-right: 15px;">
+                                                            <i class="fi-rs-user" style="font-size: 16px;"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-muted font-xs font-weight-bold">FULL NAME</div>
+                                                            <div class="font-sm font-weight-bold text-dark">{{ user_profile.full_name|default:request.user.username|title }}</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="list-group-item d-flex align-items-center py-3 px-3 px-md-4" style="background: #fff; border-bottom: 1px solid #f1f5f9;">
+                                                        <div style="width: 38px; height: 38px; min-width: 38px; border-radius: 8px; background: #F4FDE6; display: flex; align-items: center; justify-content: center; color: #82D000; margin-right: 15px;">
+                                                            <i class="fi-rs-envelope" style="font-size: 16px;"></i>
+                                                        </div>
+                                                        <div style="overflow-wrap: anywhere; word-break: break-all;">
+                                                            <div class="text-muted font-xs font-weight-bold">EMAIL ADDRESS</div>
+                                                            <div class="font-sm font-weight-bold text-dark">{{ request.user.email|default:"Not provided" }}</div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="list-group-item d-flex align-items-center py-3 px-3 px-md-4" style="background: #fff; border-bottom: 1px solid #f1f5f9;">
+                                                        <div style="width: 38px; height: 38px; min-width: 38px; border-radius: 8px; background: #F4FDE6; display: flex; align-items: center; justify-content: center; color: #82D000; margin-right: 15px;">
+                                                            <i class="fi-rs-phone-call" style="font-size: 16px;"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-muted font-xs font-weight-bold">PHONE NUMBER</div>
+                                                            <div class="font-sm font-weight-bold text-dark">
+                                                                {% if user_profile.phone %}
+                                                                    {{ user_profile.phone }}
+                                                                {% else %}
+                                                                    <span class="text-muted fst-italic font-xs">Not added yet</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="list-group-item d-flex align-items-center py-3 px-3 px-md-4" style="background: #fff; border-bottom: 1px solid #f1f5f9;">
+                                                        <div style="width: 38px; height: 38px; min-width: 38px; border-radius: 8px; background: #F4FDE6; display: flex; align-items: center; justify-content: center; color: #82D000; margin-right: 15px;">
+                                                            <i class="fi-rs-document" style="font-size: 16px;"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-muted font-xs font-weight-bold">BIO</div>
+                                                            <div class="font-sm font-weight-bold text-dark">
+                                                                {% if user_profile.bio %}
+                                                                    {{ user_profile.bio }}
+                                                                {% else %}
+                                                                    <span class="text-muted fst-italic font-xs">No bio provided</span>
+                                                                {% endif %}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="list-group-item d-flex align-items-center py-3 px-3 px-md-4" style="background: #fff;">
+                                                        <div style="width: 38px; height: 38px; min-width: 38px; border-radius: 8px; background: #F4FDE6; display: flex; align-items: center; justify-content: center; color: #82D000; margin-right: 15px;">
+                                                            <i class="fi-rs-calendar" style="font-size: 16px;"></i>
+                                                        </div>
+                                                        <div>
+                                                            <div class="text-muted font-xs font-weight-bold">MEMBER SINCE</div>
+                                                            <div class="font-sm font-weight-bold text-dark">{{ request.user.date_joined|date:"M d, Y" }}</div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="mt-20 d-md-none">
+                                                    <a href="{% url 'userauths:profile-update' %}" class="btn w-100" style="background-color: #82D000; color: #fff; border: none; font-weight: 700; padding: 12px 20px; border-radius: 8px; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                                        <i class="fi-rs-edit"></i> Edit Profile
+                                                    </a>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- DASHBOARD TAB -->
+                                    <div class="tab-pane fade" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+                                        <div class="card" style="border-radius: 12px; border: 1px solid #ececec;">
+                                            <div class="card-header py-3 px-4 border-bottom">
+                                                <h3 class="mb-0 font-weight-bold" style="font-size: 20px;">Hello, {{ request.user.username|title }}!</h3>
+                                            </div>
+                                            <div class="card-body p-3 p-md-4">
+                                                <p class="text-muted font-sm mb-20">
+                                                    From your account dashboard, you can easily view your recent orders, manage your shipping addresses, and edit your profile.
+                                                </p>
+                                                <div style="width: 100%; max-width: 650px; margin: 0 auto; min-height: 250px;">
+                                                    <canvas id="myChart"></canvas>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ORDERS TAB -->
+                                    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                                        <div class="card" style="border-radius: 12px; border: 1px solid #ececec; box-shadow: 0 4px 15px rgba(0,0,0,0.03);">
+                                            <div class="card-header py-3 px-4 border-bottom">
+                                                <h3 class="mb-0 font-weight-bold" style="font-size: 20px;">Your Orders</h3>
+                                            </div>
+                                            <div class="card-body p-3 p-md-4">
+                                                
+                                                <!-- Desktop Table View -->
+                                                <div class="d-none d-md-block table-responsive">
+                                                    <table class="table align-middle mb-0">
+                                                        <thead style="background-color: #f7f8f9;">
+                                                            <tr>
+                                                                <th style="border: none; padding: 12px 16px; font-weight: 700;">Order</th>
+                                                                <th style="border: none; padding: 12px 16px; font-weight: 700;">Date</th>
+                                                                <th style="border: none; padding: 12px 16px; font-weight: 700;">Status</th>
+                                                                <th style="border: none; padding: 12px 16px; font-weight: 700;">Payment</th>
+                                                                <th style="border: none; padding: 12px 16px; font-weight: 700;">Total</th>
+                                                                <th style="border: none; padding: 12px 16px; font-weight: 700; text-align: center;">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for o in orders_list %}
+                                                            <tr style="border-bottom: 1px solid #f1f3f5;">
+                                                                <td style="padding: 14px 16px;"><strong>#INVOICE-{{ o.id }}</strong></td>
+                                                                <td style="padding: 14px 16px; color: #666;">{{ o.order_date|date:"M d, Y" }}</td>
+                                                                <td style="padding: 14px 16px;"><span class="badge" style="background-color: #F4FDE6; color: #82D000; font-weight: 600; padding: 5px 10px; border-radius: 6px;">{{ o.product_status|title }}</span></td>
+                                                                <td style="padding: 14px 16px;">
+                                                                    {% if o.paid_status %}
+                                                                        <span class="badge bg-success" style="padding: 5px 10px; border-radius: 6px;">Paid</span>
+                                                                    {% else %}
+                                                                        <span class="badge bg-warning text-dark" style="padding: 5px 10px; border-radius: 6px;">Pending</span>
+                                                                    {% endif %}
+                                                                </td>
+                                                                <td style="padding: 14px 16px;"><strong style="color: #82D000; font-size: 15px;">${{ o.price|floatformat:2 }}</strong></td>
+                                                                <td style="padding: 14px 16px; text-align: center;">
+                                                                    <a href="{% url 'core:order-detail' o.id %}" class="btn btn-sm" style="padding: 5px 14px; border-radius: 6px; background-color: #82D000; color: #fff; font-weight: 600; border: none; font-size: 13px;">View</a>
+                                                                </td>
+                                                            </tr>
+                                                            {% empty %}
+                                                            <tr>
+                                                                <td colspan="6" class="text-center py-5 text-muted">No orders found yet.</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                                <!-- Mobile Order Cards View -->
+                                                <div class="d-md-none">
+                                                    {% for o in orders_list %}
+                                                    <div class="card p-3 mb-15" style="border-radius: 12px; border: 1px solid #eef2f6; box-shadow: 0 2px 8px rgba(0,0,0,0.03); background: #fff;">
+                                                        <div class="d-flex justify-content-between align-items-center mb-10">
+                                                            <div>
+                                                                <span class="font-weight-bold text-dark" style="font-size: 15px;">#INVOICE-{{ o.id }}</span>
+                                                                <div class="text-muted font-xs mt-1"><i class="fi-rs-calendar mr-5"></i>{{ o.order_date|date:"M d, Y" }}</div>
+                                                            </div>
+                                                            <span class="badge" style="background-color: #F4FDE6; color: #82D000; font-weight: 700; padding: 6px 12px; border-radius: 20px; font-size: 12px;">{{ o.product_status|title }}</span>
+                                                        </div>
+                                                        
+                                                        <hr style="margin: 10px 0; border-color: #f1f5f9;">
+                                                        
+                                                        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                                            <div>
+                                                                <span class="text-muted font-xs d-block">Payment</span>
+                                                                {% if o.paid_status %}
+                                                                    <span class="badge bg-success" style="padding: 4px 8px; font-size: 11px;">Paid</span>
+                                                                {% else %}
+                                                                    <span class="badge bg-warning text-dark" style="padding: 4px 8px; font-size: 11px;">Pending</span>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div>
+                                                                <span class="text-muted font-xs d-block text-end">Total</span>
+                                                                <span class="font-weight-bold" style="color: #82D000; font-size: 16px;">${{ o.price|floatformat:2 }}</span>
+                                                            </div>
+                                                            <div>
+                                                                <a href="{% url 'core:order-detail' o.id %}" class="btn btn-sm" style="background-color: #82D000; color: #fff; border: none; font-weight: 600; padding: 6px 14px; border-radius: 6px; font-size: 12px;">
+                                                                    View Details <i class="fi-rs-arrow-right ml-5"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {% empty %}
+                                                    <div class="text-center py-4 text-muted">No orders found yet.</div>
+                                                    {% endfor %}
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- ADDRESS TAB -->
+                                    <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab">
+                                        <div class="card p-3 p-md-4 mb-30" style="border-radius: 12px; border: 1px solid #ececec;">
+                                            <h4 class="mb-20 font-weight-bold" style="font-size: 18px;">Add New Address</h4>
+                                            <form method="POST"> {% csrf_token %}
+                                                <div class="row">
+                                                    <div class="form-group col-md-6 mb-15">
+                                                        <label class="form-label font-weight-bold font-sm">Address Line *</label>
+                                                        <input placeholder="Street Address, House/Flat No." required="" class="form-control" name="address" type="text" />
+                                                    </div>
+                                                    <div class="form-group col-md-6 mb-15">
+                                                        <label class="form-label font-weight-bold font-sm">Phone / Mobile *</label>
+                                                        <input placeholder="Mobile Number" required="" class="form-control" name="mobile" />
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <button type="submit" class="btn" style="background-color: #82D000; color: #fff; border: none; font-weight: 600; padding: 10px 22px; border-radius: 6px;">Save Address</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="row">
+                                            {% for a in address %}
+                                            <div class="col-md-6 mb-20">
+                                                <div class="card p-3" style="border-radius: 10px; border: 1px solid {% if a.status %}#82D000{% else %}#e2e8f0{% endif %}; background: {% if a.status %}#F4FDE6{% else %}#fff{% endif %};">
+                                                    <div class="d-flex justify-content-between align-items-center mb-10">
+                                                        <h5 class="mb-0 font-sm font-weight-bold">Address {{ forloop.counter }}</h5>
+                                                        {% if a.status %}
+                                                            <span class="badge" style="background-color: #82D000; color: #fff;">Default</span>
+                                                        {% endif %}
+                                                    </div>
+                                                    <p class="font-sm mb-5 text-dark">{{ a.address }}</p>
+                                                    <p class="font-sm text-muted mb-15"><i class="fi-rs-phone-call mr-5"></i>{{ a.mobile }}</p>
+                                                    <div>
+                                                        {% if a.status %}
+                                                            <span class="text-success font-sm font-weight-bold"><i class="fa fa-check-circle mr-5"></i>Active Default</span>
+                                                        {% else %}
+                                                            <button data-address-id="{{ a.id }}" class="btn btn-sm make-default-address action_btn" style="border: 1px solid #ddd; background: #fff; color: #555; padding: 4px 12px; border-radius: 4px; font-size: 12px;">Make Default</button>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+                                    <!-- ACCOUNT DETAILS TAB -->
+                                    <div class="tab-pane fade" id="account-detail" role="tabpanel" aria-labelledby="account-detail-tab">
+                                        <div class="card" style="border-radius: 12px; border: 1px solid #ececec;">
+                                            <div class="card-header py-3 px-4 border-bottom">
+                                                <h3 class="mb-0 font-weight-bold" style="font-size: 20px;">Account Details</h3>
+                                            </div>
+                                            <div class="card-body p-3 p-md-4">
+                                                <div class="text-center py-4">
+                                                    <div style="width: 80px; height: 80px; margin: 0 auto 15px; border-radius: 50%; background: #F4FDE6; display: flex; align-items: center; justify-content: center;">
+                                                        <i class="fi-rs-user" style="font-size: 36px; color: #82D000;"></i>
+                                                    </div>
+                                                    <h4 class="font-weight-bold mb-10">{{ user_profile.full_name|default:request.user.username|title }}</h4>
+                                                    <p class="text-muted font-sm mb-20">{{ request.user.email }}</p>
+                                                    <a href="{% url 'userauths:profile-update' %}" class="btn" style="background-color: #82D000; color: #fff; border: none; font-weight: 600; padding: 10px 24px; border-radius: 6px;">
+                                                        <i class="fi-rs-edit mr-5"></i> Update Account Profile
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const labels = {{ month|safe }};
+        const data = {
+          labels: labels,
+          datasets: [{
+            label: 'Orders',
+            backgroundColor: '#82D000',
+            borderColor: '#6DB000',
+            borderRadius: 6,
+            data: {{ total_orders|safe }}
+          }],
+        };
+
+        const config = {
+          type: 'bar',
+          data: data,
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            }
+          }
+        };
+
+        if (document.getElementById('myChart')) {
+            new Chart(document.getElementById('myChart'), config);
+        }
+    </script>
+{% endblock content %}
