@@ -175,4 +175,48 @@
     if (document.body) {
         observer.observe(document.body, { childList: true, subtree: true });
     }
+
+    // Automatically ensure content-wrapper is tall enough so footer is always below the full sidebar
+    function syncSidebarAndContentHeight() {
+        if (window.innerWidth < 768) return;
+        const sidebar = document.querySelector('.main-sidebar');
+        const contentWrapper = document.querySelector('.content-wrapper');
+        if (!sidebar || !contentWrapper) return;
+
+        // Measure distance to bottom of the very last navigation item
+        const navItems = sidebar.querySelectorAll('.nav-sidebar .nav-item, .nav-sidebar .nav-header');
+        let lastItemBottom = 0;
+        if (navItems.length > 0) {
+            const lastItem = navItems[navItems.length - 1];
+            const sidebarRect = sidebar.getBoundingClientRect();
+            const itemRect = lastItem.getBoundingClientRect();
+            lastItemBottom = (itemRect.bottom - sidebarRect.top) + 80;
+        }
+
+        // Also measure logo, user panel, and nav scroll heights
+        const logo = sidebar.querySelector('.brand-link');
+        const userPanel = sidebar.querySelector('.user-panel');
+        const nav = sidebar.querySelector('nav') || sidebar.querySelector('.sidebar');
+        const computedHeight = (logo ? logo.offsetHeight : 0) +
+                               (userPanel ? userPanel.offsetHeight : 0) +
+                               (nav ? nav.scrollHeight : 0) + 80;
+
+        const neededHeight = Math.max(lastItemBottom, computedHeight, 1550);
+        contentWrapper.style.minHeight = neededHeight + 'px';
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', syncSidebarAndContentHeight);
+    } else {
+        syncSidebarAndContentHeight();
+    }
+    window.addEventListener('load', syncSidebarAndContentHeight);
+    window.addEventListener('resize', syncSidebarAndContentHeight);
+
+    // Re-check after treeview toggle animations
+    document.addEventListener('click', function (e) {
+        if (e.target && e.target.closest('.has-treeview, [data-widget="treeview"]')) {
+            setTimeout(syncSidebarAndContentHeight, 350);
+        }
+    });
 })();

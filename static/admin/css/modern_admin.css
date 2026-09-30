@@ -14,6 +14,7 @@
     --adm-sidebar-bg: #0f172a;
     --adm-sidebar-hover: #1e293b;
     --adm-body-bg: #f8fafc;
+    --adm-bg: #f8fafc;
     --adm-card-bg: #ffffff;
     --adm-border: #e2e8f0;
     --adm-border-light: #f1f5f9;
@@ -71,6 +72,30 @@ body {
     justify-content: flex-start !important;
     flex-wrap: nowrap !important;
     gap: 0.5rem !important;
+}
+
+/* Desktop: Navbar stays right of sidebar.
+   AdminLTE already sets margin-left:250px on .main-header;
+   we just override z-index and ensure fixed positioning works correctly. */
+@media (min-width: 768px) {
+    .main-header.navbar,
+    .layout-navbar-fixed .wrapper .main-header,
+    .layout-navbar-fixed .main-header,
+    .layout-navbar-fixed.layout-fixed .wrapper .main-header {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        z-index: 1033 !important;
+        margin-left: 250px !important;
+    }
+
+    body.sidebar-collapse .main-header.navbar,
+    body.sidebar-collapse .layout-navbar-fixed .wrapper .main-header,
+    body.sidebar-collapse .layout-navbar-fixed .main-header,
+    body.sidebar-collapse .layout-navbar-fixed.layout-fixed .wrapper .main-header {
+        margin-left: 4.6rem !important;
+    }
 }
 
 /* Nav links & hamburger container */
@@ -281,42 +306,124 @@ body {
 /* ==========================================================================
    Sidebar Styling & Brand Header (Non-Sticky Logo)
    ========================================================================== */
-.main-sidebar,
-.layout-navbar-fixed .main-sidebar,
-.layout-navbar-fixed:not(.layout-fixed) .main-sidebar,
-.wrapper .main-sidebar {
-    margin-top: 0 !important;
-    top: 0 !important;
-    padding-top: 0 !important;
-    background-color: var(--adm-sidebar-bg) !important;
-    border-right: 1px solid #1e293b !important;
-    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    height: 100vh !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    scrollbar-width: thin !important;
-    scrollbar-color: #334155 transparent !important;
+/* Ensure the wrapper stretches full document height and paints the sidebar column track */
+.wrapper {
+    position: relative !important;
+    min-height: 100vh !important;
+    background-color: var(--adm-bg) !important;
 }
 
-.main-sidebar::-webkit-scrollbar {
-    width: 6px;
+.content-wrapper {
+    min-height: calc(100vh - 60px) !important;
 }
 
-.main-sidebar::-webkit-scrollbar-thumb {
-    background-color: #334155;
-    border-radius: 3px;
+@media (min-width: 768px) {
+    .wrapper {
+        background-image: linear-gradient(to right, var(--adm-sidebar-bg) 0px, var(--adm-sidebar-bg) 250px, var(--adm-bg) 250px) !important;
+        background-repeat: repeat-y !important;
+    }
+
+    body.sidebar-collapse .wrapper {
+        background-image: linear-gradient(to right, var(--adm-sidebar-bg) 0px, var(--adm-sidebar-bg) 4.6rem, var(--adm-bg) 4.6rem) !important;
+    }
+
+    .main-sidebar,
+    .layout-navbar-fixed .main-sidebar,
+    .layout-navbar-fixed:not(.layout-fixed) .main-sidebar,
+    .layout-fixed .main-sidebar,
+    .layout-navbar-fixed.layout-fixed .main-sidebar,
+    .layout-navbar-fixed.layout-fixed .wrapper .main-sidebar,
+    body:not(.layout-fixed).layout-navbar-fixed .wrapper .main-sidebar,
+    .wrapper .main-sidebar,
+    #jazzy-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        height: 100vh !important;
+        width: 250px !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        background-color: var(--adm-sidebar-bg) !important;
+        border-right: 1px solid #1e293b !important;
+        box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        z-index: 1038 !important;
+    }
+
+    body.sidebar-collapse .main-sidebar,
+    body.sidebar-collapse #jazzy-sidebar {
+        width: 4.6rem !important;
+    }
+
+    .layout-fixed .sidebar,
+    .main-sidebar .sidebar,
+    .layout-navbar-fixed.layout-fixed .wrapper .sidebar,
+    .layout-navbar-fixed.layout-fixed .sidebar,
+    .layout-navbar-fixed .sidebar {
+        height: auto !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        overflow: visible !important;
+        padding-bottom: 6rem !important;
+        flex: 1 1 auto !important;
+    }
+
+    /* Keep content-wrapper tall enough so the footer is always safely below all sidebar items */
+    .content-wrapper {
+        min-height: 1550px !important;
+        margin-left: 250px !important;
+    }
+
+    body.sidebar-collapse .content-wrapper {
+        margin-left: 4.6rem !important;
+    }
+
+    .main-footer {
+        margin-left: 250px !important;
+        background-color: #ffffff !important;
+        border-top: 1px solid var(--adm-border) !important;
+        position: relative !important;
+        z-index: 1030 !important;
+    }
+
+    body.sidebar-collapse .main-footer {
+        margin-left: 4.6rem !important;
+    }
 }
 
-/* Ensure Logo is completely non-sticky */
+@media (max-width: 767.98px) {
+    .main-sidebar,
+    .layout-navbar-fixed .main-sidebar,
+    .wrapper .main-sidebar,
+    #jazzy-sidebar {
+        position: fixed !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+        height: 100vh !important;
+        overflow-y: auto !important;
+        background-color: var(--adm-sidebar-bg) !important;
+        z-index: 1040 !important;
+    }
+}
+
+/* Ensure Logo is completely non-sticky & centered, touching the very top edge */
 .brand-link,
 .layout-fixed .brand-link,
 .layout-fixed .main-sidebar .brand-link,
+.layout-navbar-fixed .wrapper .brand-link,
+.layout-navbar-fixed .brand-link,
 #jazzy-logo {
     position: static !important;
-    top: auto !important;
+    top: 0 !important;
     left: auto !important;
+    margin-top: 0 !important;
     width: 100% !important;
     height: 68px !important;
     min-height: 68px !important;
@@ -327,17 +434,9 @@ body {
     align-items: center !important;
     justify-content: center !important;
     flex-shrink: 0 !important;
-    z-index: 1 !important;
+    z-index: 1039 !important;
     overflow: hidden !important;
     text-decoration: none !important;
-}
-
-.layout-fixed .sidebar,
-.main-sidebar .sidebar {
-    height: auto !important;
-    margin-top: 0 !important;
-    overflow-y: visible !important;
-    padding-bottom: 2rem !important;
 }
 
 .brand-link .brand-image {

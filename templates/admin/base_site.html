@@ -3,9 +3,14 @@
 
 {% get_site_settings as site_settings_data %}
 
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin/css/modern_admin.css' %}?v={% now 'U' %}">
+{% endblock %}
+
 {% block extrahead %}
     {{ block.super }}
-    <script src="{% static 'admin/js/admin_image_preview.js' %}"></script>
+    <script src="{% static 'admin/js/admin_image_preview.js' %}?v={% now 'U' %}"></script>
 {% endblock %}
 
 {% block sidebar %}

@@ -2003,3 +2003,23 @@ Traceback (most recent call last):
 django.http.response.Http404: ¡°C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\media\vendor.jpg¡± does not exist
 
 --------------------------------------------------
+[2026-10-01 01:31:18.231731] Exception: ¡°C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\staticfiles\admin\css\modern_admin.css¡± does not exist
+
+Traceback (most recent call last):
+  File "C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\venv\Lib\site-packages\django\views\static.py", line 40, in serve
+    raise Http404(_("¡°%(path)s¡± does not exist") % {"path": fullpath})
+django.http.response.Http404: ¡°C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\staticfiles\admin\css\modern_admin.css¡± does not exist
+
+--------------------------------------------------
+[2026-10-01 01:31:18.249769] Exception: ¡°C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\staticfiles\admin\js\admin_image_preview.js¡± does not exist
+
+Traceback (most recent call last):
+  File "C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\venv\Lib\site-packages\django\views\static.py", line 40, in serve
+    raise Http404(_("¡°%(path)s¡± does not exist") % {"path": fullpath})
+django.http.response.Http404: ¡°C:\Users\DELL\OneDrive\Desktop\Mansib\Django web-project\Nest-E-commerce-Platform-Using-Django-Source-Code-Files\V1-Backend\staticfiles\admin\js\admin_image_preview.js¡± does not exist
+
+--------------------------------------------------
