@@ -1,7 +1,165 @@
 {% extends "admin/base.html" %}
+{% load i18n static jazzmin admin_dashboard_tags %}
+
+{% get_site_settings as site_settings_data %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <script src="{% static 'admin/js/admin_image_preview.js' %}"></script>
+{% endblock %}
+
+{% block sidebar %}
+{% if jazzmin_settings.show_sidebar %}
+    {% get_side_menu as side_menu_list %}
+    {% get_site_settings as site_settings_data %}
+
+    <aside class="main-sidebar elevation-4 {{ jazzmin_ui.sidebar_classes }}" id="jazzy-sidebar">
+        <a href="{% url 'admin:index' %}" class="brand-link {{ jazzmin_ui.brand_classes }}" id="jazzy-logo">
+            {% if site_settings_data and site_settings_data.logo %}
+                <img src="{{ site_settings_data.logo.url }}" alt="{% if site_settings_data.title %}{{ site_settings_data.title }}{% else %}{{ jazzmin_settings.site_header }}{% endif %} Logo" class="{{ jazzmin_settings.site_logo_classes }} brand-image elevation-3" style="opacity: 1">
+            {% else %}
+                <img src="{% static jazzmin_settings.site_logo %}" alt="{{ jazzmin_settings.site_header }} Logo" class="{{ jazzmin_settings.site_logo_classes }} brand-image elevation-3" style="opacity: 1">
+            {% endif %}
+            <span class="brand-text font-weight-light">{{ jazzmin_settings.site_brand }}</span>
+        </a>
+
+        <div class="sidebar">
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    {% if jazzmin_settings|has_jazzmin_setting:"user_avatar" %}
+                        <img src="{% get_user_avatar request.user %}" width="160px" class="img-circle elevation-2" alt="User Image">
+                    {% else %}
+                        <i class="fas fa-inverse user-profile fa-user-circle"></i>
+                    {% endif %}
+                </div>
+                <div class="info">
+                    {% if perms|can_view_self %}
+                        <a href="{% jazzy_admin_url request.user request.current_app|default:"admin" %}" class="d-block">{{ request.user }}</a>
+                    {% else %}
+                        <span class="d-block" style="color: white;">{{ request.user }}</span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column {{ jazzmin_ui.sidebar_list_classes }}" data-widget="treeview" role="menu" data-collapsible="false">
+
+                    <li class="nav-item">
+                        <a href="{% url 'admin:index' %}" class="nav-link">
+                            <i class="nav-icon fas fa-th-large"></i>
+                            <p>{% trans 'Dashboard' %}</p>
+                        </a>
+                    </li>
+
+                    {% if jazzmin_settings.navigation_expanded %}
+                        {% for app in side_menu_list %}
+                            <li class="nav-header">{{ app.name }}</li>
+                            {% for model in app.models %}
+                                <li class="nav-item">
+                                    {% if model.url %}
+                                    <a href="{{ model.url }}" class="nav-link">
+                                        <i class="nav-icon {{ model.icon }}"></i> <p>{{ model.name }}</p>
+                                    </a>
+                                {% else %}
+                                    <span class="nav-link disabled">
+                                        <i class="nav-icon {{ model.icon }}"></i> <p>{{ model.name }}</p>
+                                    </span>
+                                {% endif %}
+                                </li>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        {% for app in side_menu_list %}
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon {{ app.icon }}"></i>
+                                    <p>{{ app.name|truncatechars:21 }} <i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    {% for model in app.models %}
+                                        <li class="nav-item">
+                                            <a href="{% if model.url %}{{ model.url }}{% else %}javascript:void(0){% endif %}" class="nav-link">
+                                                <i class="nav-icon {{ model.icon }}"></i>
+                                                <p>{{ model.name }}</p>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </aside>
+{% endif %}
+{% endblock %}
+
+{% block page_content %}
+    {% if not is_popup and request.path != '/admin/' and request.path != '/admin' and request.resolver_match.url_name != 'index' %}
+        <div class="content border-bottom mb-2">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12 col-md-auto d-flex flex-grow-1 align-items-center">
+                        <h1 class="h4 m-0 pr-3 mr-3 border-right">{% block content_title %}{% endblock %}</h1>
+                        {% block breadcrumbs %}{% endblock %}
+                    </div>
+                    {% block page_actions %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="content">
+        <div class="container-fluid">
+            <section id="content" class="content">
+                {% block messages %}
+                    {% for message in messages %}
+                        {% if message.tags == 'success' %}
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="icon fas fa-check"></i>{{ message|capfirst }}
+                            </div>
+                        {% elif message.tags == 'error' %}
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="icon fas fa-ban"></i>{{ message|capfirst }}
+                            </div>
+                        {% elif message.tags == 'warning' %}
+                            <div class="alert alert-warning alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="icon fas fa-exclamation-triangle"></i>{{ message|capfirst }}
+                            </div>
+                        {% elif message.tags == 'info' %}
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                <i class="icon fas fa-info"></i>{{ message|capfirst }}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endblock messages %}
+
+                <div class="row">
+                    {% block content %}{% endblock %}
+                </div>
+            </section>
+        </div>
+    </div>
+{% endblock %}
 
 {% block footer %}
-    <footer class="main-footer {{ jazzmin_ui.footer_classes }}">
-        <strong>Powered By Stradigtech copyright@2026. All rights reserved</strong>
+    {% get_site_settings as site_settings_data %}
+    <footer class="main-footer {{ jazzmin_ui.footer_classes }} d-flex flex-column flex-md-row justify-content-between align-items-center py-3 px-4">
+        <div>
+            <strong>&copy; {% now "Y" %} <a href="/" target="_blank" class="text-success text-decoration-none">{% if site_settings_data and site_settings_data.title %}{{ site_settings_data.title }}{% else %}Nest Vest Grocery & Mart{% endif %}</a>.</strong>
+            <span class="text-muted ms-2">All rights reserved.</span>
+        </div>
+        <div class="mt-2 mt-md-0 text-muted small">
+            <span>Powered by <strong class="text-dark">Stradigtechnology</strong></span>
+            <span class="mx-2">•</span>
+            <a href="/useradmin/" class="text-secondary text-decoration-none" target="_blank"><i class="fas fa-store me-1"></i>Vendor Portal</a>
+            <span class="mx-2">•</span>
+            <a href="/" class="text-secondary text-decoration-none" target="_blank"><i class="fas fa-globe me-1"></i>Storefront</a>
+        </div>
     </footer>
 {% endblock %}

@@ -1,83 +1,328 @@
 {% extends "admin/base_site.html" %}
-{% load i18n static jazzmin admin_dashboard_tags %}
+{% load i18n static jazzmin humanize admin_dashboard_tags %}
 {% get_jazzmin_ui_tweaks as jazzmin_ui %}
 
 {% block bodyclass %}{{ block.super }} dashboard{% endblock %}
 
-{% block content_title %} {% trans 'Dashboard' %} {% endblock %}
+{% block content_title %}{% endblock %}
 
-{% block breadcrumbs %}
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{% url 'admin:index' %}">{% trans 'Home' %}</a></li>
-        <li class="breadcrumb-item">{% trans 'Dashboard' %}</li>
-    </ol>
-{% endblock %}
-
+{% block breadcrumbs %}{% endblock %}
 
 {% block content %}
     {% get_dashboard_stats as stats %}
 
-    <div class="col-12">
-        <!-- Custom Dashboard Metrics Cards -->
+    <div class="col-12 px-0">
+
+
+        <!-- 4 Premium KPI Metric Cards -->
         <div class="row mb-4">
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-info">
-                    <div class="inner">
-                        <h3>{{ stats.underway_orders }}</h3>
-                        <p>Underway Orders</p>
+            <!-- Total Revenue -->
+            <div class="col-xl-3 col-md-6 mb-3 mb-xl-0">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <div class="kpi-label">Total Revenue</div>
+                        <div class="kpi-value">${{ stats.total_revenue|floatformat:2|intcomma }}</div>
+                        <span class="kpi-badge success">
+                            <i class="fas fa-arrow-up me-1"></i> Gross Volume
+                        </span>
                     </div>
-                    <div class="icon">
+                    <div class="kpi-icon-wrap emerald">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Orders -->
+            <div class="col-xl-3 col-md-6 mb-3 mb-xl-0">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <div class="kpi-label">Total Orders</div>
+                        <div class="kpi-value">{{ stats.all_orders|intcomma }}</div>
+                        <span class="kpi-badge info">
+                            <i class="fas fa-clock me-1"></i> {{ stats.underway_orders }} Active Orders
+                        </span>
+                    </div>
+                    <div class="kpi-icon-wrap blue">
                         <i class="fas fa-shopping-bag"></i>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-success">
-                    <div class="inner">
-                        <h3>{{ stats.all_orders }}</h3>
-                        <p>All Orders</p>
+
+            <!-- Total Products -->
+            <div class="col-xl-3 col-md-6 mb-3 mb-xl-0">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <div class="kpi-label">Active Products</div>
+                        <div class="kpi-value">{{ stats.all_products|intcomma }}</div>
+                        <span class="kpi-badge purple">
+                            <i class="fas fa-layer-group me-1"></i> {{ stats.total_categories }} Categories
+                        </span>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-chart-bar"></i>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-warning">
-                    <div class="inner">
-                        <h3>{{ stats.user_registrations }}</h3>
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-user-plus"></i>
+                    <div class="kpi-icon-wrap purple">
+                        <i class="fas fa-boxes"></i>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-6">
-                <div class="small-box bg-danger">
-                    <div class="inner">
-                        <h3>{{ stats.all_products }}</h3>
-                        <p>All Products</p>
+
+            <!-- Users / Community -->
+            <div class="col-xl-3 col-md-6 mb-3 mb-xl-0">
+                <div class="kpi-card">
+                    <div class="kpi-info">
+                        <div class="kpi-label">Users & Vendors</div>
+                        <div class="kpi-value">{{ stats.user_registrations|intcomma }}</div>
+                        <span class="kpi-badge warning">
+                            <i class="fas fa-store me-1"></i> {{ stats.total_vendors }} Vendors
+                        </span>
                     </div>
-                    <div class="icon">
-                        <i class="fas fa-chart-pie"></i>
+                    <div class="kpi-icon-wrap amber">
+                        <i class="fas fa-users"></i>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Chart -->
+        <!-- Middle Row: Analytics Chart & Order Status Breakdown -->
         <div class="row mb-4">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header border-0">
-                        <div class="d-flex justify-content-between">
-                            <h3 class="card-title">Sale statistics</h3>
+            <!-- Sales & Inventory Growth Chart -->
+            <div class="col-lg-8 mb-4 mb-lg-0">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 py-3">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <div>
+                                <h5 class="card-title font-weight-bold text-dark mb-1">
+                                    <i class="fas fa-chart-area text-success me-2"></i> Performance & Trends
+                                </h5>
+                                <small class="text-muted">Monthly trajectory of Customer Orders vs Catalog Additions</small>
+                            </div>
+                            <span class="badge badge-success px-3 py-2">
+                                <i class="fas fa-circle text-success me-1" style="font-size: 0.5rem; vertical-align: middle;"></i> Live Data
+                            </span>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="position-relative mb-4">
-                            <canvas id="salesChart" height="400"></canvas>
+                        <div class="position-relative" style="height: 340px;">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Status & Quick Metrics Breakdown -->
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h5 class="card-title font-weight-bold text-dark mb-0">
+                            <i class="fas fa-tasks text-primary me-2"></i> Fulfillment Status
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <!-- Delivered -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="font-weight-600 text-dark small"><i class="fas fa-check-circle text-success me-1"></i> Delivered</span>
+                                <span class="font-weight-bold small text-success">{{ stats.delivered_orders }}</span>
+                            </div>
+                            <div class="progress" style="height: 8px; border-radius: 50px; background-color: #f1f5f9;">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {% if stats.all_orders > 0 %}{% widthratio stats.delivered_orders stats.all_orders 100 %}{% else %}0{% endif %}%; border-radius: 50px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Shipped -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="font-weight-600 text-dark small"><i class="fas fa-shipping-fast text-primary me-1"></i> Shipped</span>
+                                <span class="font-weight-bold small text-primary">{{ stats.shipped_orders }}</span>
+                            </div>
+                            <div class="progress" style="height: 8px; border-radius: 50px; background-color: #f1f5f9;">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: {% if stats.all_orders > 0 %}{% widthratio stats.shipped_orders stats.all_orders 100 %}{% else %}0{% endif %}%; border-radius: 50px;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Processing -->
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="font-weight-600 text-dark small"><i class="fas fa-spinner fa-spin text-warning me-1"></i> Processing</span>
+                                <span class="font-weight-bold small text-warning">{{ stats.processing_orders }}</span>
+                            </div>
+                            <div class="progress" style="height: 8px; border-radius: 50px; background-color: #f1f5f9;">
+                                <div class="progress-bar bg-warning" role="progressbar" style="width: {% if stats.all_orders > 0 %}{% widthratio stats.processing_orders stats.all_orders 100 %}{% else %}0{% endif %}%; border-radius: 50px;"></div>
+                            </div>
+                        </div>
+
+                        <hr class="my-3" style="border-color: #f1f5f9;">
+
+                        <!-- Quick Summary Grid -->
+                        <div class="row text-center pt-2">
+                            <div class="col-4 border-right">
+                                <div class="text-muted small text-uppercase" style="font-size: 0.68rem; font-weight: 700;">Categories</div>
+                                <div class="font-weight-bold text-dark mt-1 h6 mb-0">{{ stats.total_categories }}</div>
+                            </div>
+                            <div class="col-4 border-right">
+                                <div class="text-muted small text-uppercase" style="font-size: 0.68rem; font-weight: 700;">Vendors</div>
+                                <div class="font-weight-bold text-dark mt-1 h6 mb-0">{{ stats.total_vendors }}</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-muted small text-uppercase" style="font-size: 0.68rem; font-weight: 700;">Underway</div>
+                                <div class="font-weight-bold text-success mt-1 h6 mb-0">{{ stats.underway_orders }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Recent Orders & Recent Products -->
+        <div class="row mb-4">
+            <!-- Recent Orders Table -->
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 py-3">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h5 class="card-title font-weight-bold text-dark mb-0">
+                                <i class="fas fa-receipt text-success me-2"></i> Recent Orders
+                            </h5>
+                            <a href="{% url 'admin:core_cartorder_changelist' %}" class="btn btn-sm btn-light">
+                                View All <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Order SKU</th>
+                                        <th>Customer</th>
+                                        <th>Total</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                        <th class="text-end">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in stats.recent_orders %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'admin:core_cartorder_change' order.id %}" class="font-weight-bold text-success">
+                                                #{{ order.sku }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar-sm rounded-circle bg-light d-flex align-items-center justify-content-center me-2" style="width: 28px; height: 28px; font-size: 0.75rem; font-weight: 700; color: #475569;">
+                                                    {{ order.user.username|slice:":1"|upper }}
+                                                </div>
+                                                <span class="text-dark font-weight-500">{{ order.user.username|title }}</span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="font-weight-bold text-dark">${{ order.price|floatformat:2|intcomma }}</span>
+                                        </td>
+                                        <td>
+                                            {% if order.paid_status %}
+                                                <span class="badge badge-success">Paid</span>
+                                            {% else %}
+                                                <span class="badge badge-danger">Unpaid</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if order.product_status == "delivered" %}
+                                                <span class="badge badge-success">Delivered</span>
+                                            {% elif order.product_status == "shipped" %}
+                                                <span class="badge badge-info">Shipped</span>
+                                            {% elif order.product_status == "processing" %}
+                                                <span class="badge badge-warning">Processing</span>
+                                            {% else %}
+                                                <span class="badge badge-secondary">{{ order.product_status|title }}</span>
+                                            {% endif %}
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{% url 'admin:core_cartorder_change' order.id %}" class="btn btn-sm btn-light" title="Inspect Order">
+                                                <i class="fas fa-eye text-muted"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 text-muted">
+                                            <i class="fas fa-shopping-bag fa-2x mb-2 text-muted opacity-50"></i>
+                                            <p class="mb-0 small">No orders recorded in database yet.</p>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Products -->
+            <div class="col-lg-5">
+                <div class="card h-100">
+                    <div class="card-header bg-white border-0 py-3">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            <h5 class="card-title font-weight-bold text-dark mb-0">
+                                <i class="fas fa-box-open text-primary me-2"></i> Recent Products
+                            </h5>
+                            <a href="{% url 'admin:core_product_changelist' %}" class="btn btn-sm btn-light">
+                                View All <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th class="text-end">Edit</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for product in stats.recent_products %}
+                                    <tr>
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                {% if product.image %}
+                                                    <img src="{{ product.image.url }}" alt="{{ product.title }}" style="width: 36px; height: 36px; object-fit: cover; border-radius: 8px; margin-right: 10px; border: 1px solid #e2e8f0;">
+                                                {% else %}
+                                                    <div style="width: 36px; height: 36px; border-radius: 8px; background: #f1f5f9; display: flex; align-items: center; justify-content: center; margin-right: 10px;">
+                                                        <i class="fas fa-box text-muted"></i>
+                                                    </div>
+                                                {% endif %}
+                                                <div>
+                                                    <a href="{% url 'admin:core_product_change' product.id %}" class="text-dark font-weight-600 small d-block" style="line-height: 1.2;">
+                                                        {{ product.title|truncatechars:24 }}
+                                                    </a>
+                                                    <small class="text-muted" style="font-size: 0.72rem;">SKU: {{ product.sku }}</small>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="badge badge-secondary">{{ product.category.title|default:"Uncategorized" }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="font-weight-bold text-dark">${{ product.price }}</span>
+                                        </td>
+                                        <td class="text-end">
+                                            <a href="{% url 'admin:core_product_change' product.id %}" class="btn btn-sm btn-light" title="Edit Product">
+                                                <i class="fas fa-edit text-muted"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="4" class="text-center py-4 text-muted">
+                                            <i class="fas fa-boxes fa-2x mb-2 text-muted opacity-50"></i>
+                                            <p class="mb-0 small">No products added yet.</p>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -91,7 +336,9 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var ctx = document.getElementById('salesChart').getContext('2d');
+        var canvas = document.getElementById('salesChart');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
         
         // Parse data from Django safely
         var rawLabels = '{{ stats.chart_labels|escapejs }}';
@@ -101,27 +348,46 @@
         var labels = JSON.parse(rawLabels || '[]');
         var sales = JSON.parse(rawSales || '[]');
         var products = JSON.parse(rawProducts || '[]');
+
+        // Create elegant gradients for chart
+        var gradientSales = ctx.createLinearGradient(0, 0, 0, 320);
+        gradientSales.addColorStop(0, 'rgba(16, 185, 129, 0.35)');
+        gradientSales.addColorStop(1, 'rgba(16, 185, 129, 0.0)');
+
+        var gradientProducts = ctx.createLinearGradient(0, 0, 0, 320);
+        gradientProducts.addColorStop(0, 'rgba(59, 130, 246, 0.25)');
+        gradientProducts.addColorStop(1, 'rgba(59, 130, 246, 0.0)');
         
         var salesChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: labels,
+                labels: labels.length ? labels : ['No Data'],
                 datasets: [
                     {
-                        label: 'Sales',
-                        data: sales,
-                        backgroundColor: 'rgba(60,141,188,0.2)',
-                        borderColor: 'rgba(60,141,188,1)',
-                        borderWidth: 2,
+                        label: 'Orders Placed',
+                        data: sales.length ? sales : [0],
+                        backgroundColor: gradientSales,
+                        borderColor: '#10b981',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#10b981',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
                         fill: true,
                         tension: 0.4
                     },
                     {
-                        label: 'Products',
-                        data: products,
-                        backgroundColor: 'rgba(210, 214, 222, 0.2)',
-                        borderColor: 'rgba(210, 214, 222, 1)',
-                        borderWidth: 2,
+                        label: 'Products Added',
+                        data: products.length ? products : [0],
+                        backgroundColor: gradientProducts,
+                        borderColor: '#3b82f6',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#3b82f6',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6,
                         fill: true,
                         tension: 0.4
                     }
@@ -130,9 +396,70 @@
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                interaction: {
+                    intersect: false,
+                    mode: 'index',
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8,
+                            padding: 20,
+                            font: {
+                                family: "'Plus Jakarta Sans', sans-serif",
+                                size: 12,
+                                weight: '600'
+                            },
+                            color: '#475569'
+                        }
+                    },
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        titleFont: {
+                            family: "'Plus Jakarta Sans', sans-serif",
+                            size: 13,
+                            weight: '700'
+                        },
+                        bodyFont: {
+                            family: "'Plus Jakarta Sans', sans-serif",
+                            size: 12
+                        },
+                        padding: 12,
+                        cornerRadius: 8,
+                        boxPadding: 6,
+                        usePointStyle: true
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f1f5f9',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            precision: 0,
+                            font: {
+                                family: "'Plus Jakarta Sans', sans-serif",
+                                size: 11
+                            },
+                            color: '#94a3b8'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            font: {
+                                family: "'Plus Jakarta Sans', sans-serif",
+                                size: 11
+                            },
+                            color: '#94a3b8'
+                        }
                     }
                 }
             }
